@@ -83,7 +83,6 @@ public class PathFindingOnSquaredGrid {
     public static void show(boolean[][] a, boolean which) {
         int N = a.length;
         StdDraw.setXscale(-1, N);
-        ;
         StdDraw.setYscale(-1, N);
         StdDraw.setPenColor(StdDraw.BLACK);
         for (int i = 0; i < N; i++)
@@ -97,7 +96,6 @@ public class PathFindingOnSquaredGrid {
     public static void show(boolean[][] a, boolean which, int x1, int y1, int x2, int y2) {
         int N = a.length;
         StdDraw.setXscale(-1, N);
-        ;
         StdDraw.setYscale(-1, N);
         StdDraw.setPenColor(StdDraw.BLACK);
         for (int i = 0; i < N; i++)
@@ -122,11 +120,13 @@ public class PathFindingOnSquaredGrid {
 
     // test client
     public static void main(String[] args) {
+        //integer to store the matrix size
+        int N = 20;
         // boolean[][] open = StdArrayIO.readBoolean2D();
 
-        // The following will generate a 10x10 squared grid with relatively few obstacles in it
+        // The following will generate a NxN squared grid with relatively few obstacles in it
         // The lower the second parameter, the more obstacles (black cells) are generated
-        boolean[][] randomlyGenMatrix = random(10, 0.8);
+        boolean[][] randomlyGenMatrix = random(N, 0.8);
 
         StdArrayIO.print(randomlyGenMatrix);
         show(randomlyGenMatrix, true);
@@ -163,10 +163,31 @@ public class PathFindingOnSquaredGrid {
         // You should position this command accordingly in order to perform the algorithmic analysis
         StdOut.println("Elapsed time = " + timerFlow.elapsedTime());
 
-        // System.out.println("Coordinates for A: [" + Ai + "," + Aj + "]");
-        // System.out.println("Coordinates for B: [" + Bi + "," + Bj + "]");
+        System.out.println("Coordinates for A: [" + Ai + "," + Aj + "]");
+        System.out.println("Coordinates for B: [" + Bi + "," + Bj + "]");
 
         show(randomlyGenMatrix, true, Ai, Aj, Bi, Bj);
+        drawLine(Ai, Aj, Bi, Bj , N);
+
+
+    }
+
+    /**
+     *
+     * @param ai
+     * @param aj
+     * @param bi
+     * @param bj
+     * @param N
+     */
+    public static void drawLine(int ai , int aj , int bi , int bj , int N){
+
+        StdDraw.setXscale(-1,N);
+        StdDraw.setYscale(-1,N);
+
+        StdDraw.setPenRadius(0.01);
+        StdDraw.setPenColor(StdDraw.RED);
+        StdDraw.line(aj,N- ai-1,bj, N-bi-1);
     }
 
 }
