@@ -82,14 +82,28 @@ public class PathFindingOnSquaredGrid {
     // draw the N-by-N boolean matrix to standard draw
     public static void show(boolean[][] a, boolean which) {
         int N = a.length;
+        int boxCounter = 1;
+
         StdDraw.setXscale(-1, N);
         StdDraw.setYscale(-1, N);
         StdDraw.setPenColor(StdDraw.BLACK);
-        for (int i = 0; i < N; i++)
-            for (int j = 0; j < N; j++)
-                if (a[i][j] == which)
+        for (int i = 0; i < N; i++) {
+            for (int j = 0; j < N; j++) {
+                if (a[i][j] == which) {
+
                     StdDraw.square(j, N - i - 1, .5);
-                else StdDraw.filledSquare(j, N - i - 1, .5);
+
+
+                } else {
+
+                    StdDraw.filledSquare(j, N - i - 1, .5);
+                }
+                //StdDraw.setPenColor(StdDraw.BOOK_LIGHT_BLUE);
+                //StdDraw.text(j, N - i - 1, String.valueOf(boxCounter++));
+                //StdDraw.setPenColor(StdDraw.BLACK);
+            }
+        }
+
     }
 
     // draw the N-by-N boolean matrix to standard draw, including the points A (x1, y1) and B (x2,y2) to be marked by a circle
@@ -98,13 +112,23 @@ public class PathFindingOnSquaredGrid {
         StdDraw.setXscale(-1, N);
         StdDraw.setYscale(-1, N);
         StdDraw.setPenColor(StdDraw.BLACK);
-        for (int i = 0; i < N; i++)
-            for (int j = 0; j < N; j++)
-                if (a[i][j] == which)
+        for (int i = 0; i < N; i++){
+            for (int j = 0; j < N; j++) {
+                if (a[i][j] == which) {
+
                     if ((i == x1 && j == y1) || (i == x2 && j == y2)) {
+
                         StdDraw.circle(j, N - i - 1, .5);
-                    } else StdDraw.square(j, N - i - 1, .5);
-                else StdDraw.filledSquare(j, N - i - 1, .5);
+
+                    } else {
+
+                        StdDraw.square(j, N - i - 1, .5);
+                    }
+                } else {
+                    StdDraw.filledSquare(j, N - i - 1, .5);
+                }
+            }
+        }
     }
 
     // return a random N-by-N boolean matrix, where each entry is
@@ -121,14 +145,18 @@ public class PathFindingOnSquaredGrid {
     // test client
     public static void main(String[] args) {
         //integer to store the matrix size
-        int N = 20;
+        int N = 10;
         // boolean[][] open = StdArrayIO.readBoolean2D();
 
         // The following will generate a NxN squared grid with relatively few obstacles in it
         // The lower the second parameter, the more obstacles (black cells) are generated
         boolean[][] randomlyGenMatrix = random(N, 0.8);
 
+        //The following 2D array will number the matrix for ease of use
+
         StdArrayIO.print(randomlyGenMatrix);
+        System.out.println();
+        Map map = new Map(randomlyGenMatrix);
         show(randomlyGenMatrix, true);
 
         System.out.println();
@@ -173,12 +201,11 @@ public class PathFindingOnSquaredGrid {
     }
 
     /**
-     *
-     * @param ai
-     * @param aj
-     * @param bi
-     * @param bj
-     * @param N
+     * @param ai X co-ordinate of the first circle
+     * @param aj Y co-ordinate of the first circle
+     * @param bi X co-ordinate of the second circle
+     * @param bj Y co-ordinate of the second circle
+     * @param N Size of the matrix
      */
     public static void drawLine(int ai , int aj , int bi , int bj , int N){
 
@@ -187,7 +214,8 @@ public class PathFindingOnSquaredGrid {
 
         StdDraw.setPenRadius(0.01);
         StdDraw.setPenColor(StdDraw.RED);
-        StdDraw.line(aj,N- ai-1,bj, N-bi-1);
+        StdDraw.line( aj , N-ai-1 , bj , N-bi-1 );
+        StdDraw.setPenColor(StdDraw.BLACK);
     }
 
 }
