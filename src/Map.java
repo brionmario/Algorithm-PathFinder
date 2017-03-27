@@ -1,7 +1,5 @@
-import javax.xml.soap.Node;
-import java.awt.*;
-import java.awt.List;
-import java.util.*;
+import java.util.LinkedList;
+import java.util.List;
 
 /**
  * Copyright (c) 2017. Aparecium Labs.  http://www.apareciumlabs.com
@@ -44,6 +42,5 @@ public class Map {
             System.out.print("\n");
         }
     }
-
 
 }

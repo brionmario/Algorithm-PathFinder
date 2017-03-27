@@ -51,14 +51,14 @@ public class Node {
      *            The node's X position on the map.
      * @param y
      *            The node's Y position on the map.
-     * @param walkable
+     * @param isBlocked
      *            If the node is not a wall and can be walked through.
      */
-    public Node(int x, int y, boolean walkable)
+    public Node(int x, int y, boolean isBlocked)
     {
         this.x = x;
         this.y = y;
-        this.isBlocked = walkable;
+        this.isBlocked = isBlocked;
     }
 
     /**
@@ -90,8 +90,10 @@ public class Node {
      *
      * @param destination The destination node
      */
-    public void setH(Node destination , String metric)
+    public void setH(Node destination)
     {
+        h = (Math.abs(getX() - destination.getX()) + Math.abs(getY() - destination.getY())) * COST;
+        /*
         switch (metric) {
             case "Manhattan": {
                 h = (Math.abs(getX() - destination.getX()) + Math.abs(getY() - destination.getY())) * COST;
@@ -108,6 +110,7 @@ public class Node {
                 break;
             }
         }
+        */
 
     }
 

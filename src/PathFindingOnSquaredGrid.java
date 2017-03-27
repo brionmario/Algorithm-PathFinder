@@ -1,3 +1,5 @@
+import java.util.Arrays;
+import java.util.List;
 import java.util.Scanner;
 
 /**
@@ -15,7 +17,8 @@ public class PathFindingOnSquaredGrid {
      */
     private static Node[][] nodes;
     private static Node destinationNode;
-
+    private static List<Node> path;
+    private static Map map;
 
     // given an N-by-N matrix of open cells, return an N-by-N matrix
     // of cells reachable from the top
@@ -99,16 +102,17 @@ public class PathFindingOnSquaredGrid {
                 if (a[i][j] == which) {
 
                     StdDraw.square(j, N - i - 1, .5);
-
+                    nodes[i][j] = new Node(j,i, false);
 
                 } else {
 
                     StdDraw.filledSquare(j, N - i - 1, .5);
+                    nodes[i][j] = new Node(j,i, true);
                 }
                 //StdDraw.setPenColor(StdDraw.BOOK_LIGHT_BLUE);
                 //StdDraw.text(j, N - i - 1, String.valueOf(boxCounter++));
                 //StdDraw.setPenColor(StdDraw.BLACK);
-                nodes[j][i] = new Node(j,i, a[j][i] == false);
+                //nodes[j][i] = new Node(j,i, a[j][i] == false);
             }
         }
 
@@ -221,19 +225,9 @@ public class PathFindingOnSquaredGrid {
         }
 
         System.out.println("\n Goal Node co-ordinates are ( X - "  + destinationNode.getX() + ") , ( Y - " + destinationNode.getY() + " )");
-        System.out.println("\n Node H vales according to Manhattan distance \n " );
-        for(Node[] node : nodes){
-            for(int i =0;i<nodes.length;i++) {
-                node[i].setH(destinationNode , "Manhattan");
-                int h = node[i].getH();
 
-                if(h<10)
-                    System.out.print(" 0" + node[i].getH() + " ");
-                else
-                    System.out.print(" " + node[i].getH() + " ");
-            }
-            System.out.println("");
-        }
+        //if the path can be traced, calculate the heuristic and draw the path
+        findPath(nodes,Ai, Aj, Bi, Bj);
 
         show(randomlyGenMatrix, true, Ai, Aj, Bi, Bj);
         drawLine(Ai, Aj, Bi, Bj , N);
@@ -259,6 +253,51 @@ public class PathFindingOnSquaredGrid {
         StdDraw.setPenColor(StdDraw.BLACK);
     }
 
+    /**
+     * This method calculates the heuristic values according to the destination node
+     * @param nodes The Array of nodes are passed here
+     */
+    public static void calcHeuristic(Node[][] nodes){
+
+        System.out.println("\n Node Heuristic vales \n " );
+        for(Node[] node : nodes){
+            for(int i =0;i<nodes.length;i++) {
+                if(node[i].isBlocked() == false) {
+                    node[i].setH(destinationNode);
+                    int h = node[i].getH();
+
+                    if (h < 10)
+                        System.out.print(" 0" + node[i].getH() + " ");
+                    else
+                        System.out.print(" " + node[i].getH() + " ");
+                }else {
+                    System.out.print(" " + "@@" + " ");
+                }
+            }
+            System.out.println("");
+        }
+    }
+
+    /**
+     * This method checks if the path can be traced and finds the path
+     */
+    public static void findPath(Node[][] nodes, int x1, int y1, int x2, int y2)
+    {
+
+            if (nodes[x2][y2].isBlocked() == false)
+            {
+                //calculate the heuristic
+                calcHeuristic(nodes);
+               // player.followPath(path);
+                System.out.println("Can walk to that node!");
+            }
+            else
+            {
+                System.out.println("Can't walk to that node!");
+            }
+
+
+    }
 }
 
 
