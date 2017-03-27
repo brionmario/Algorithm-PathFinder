@@ -14,7 +14,7 @@ public class PathFindingOnSquaredGrid {
      * Array full of nodes to be used for the pathfinding.
      */
     private static Node[][] nodes;
-    private static Node goal;
+    private static Node destinationNode;
 
 
     // given an N-by-N matrix of open cells, return an N-by-N matrix
@@ -214,18 +214,17 @@ public class PathFindingOnSquaredGrid {
 
                 if(node[i].getX() == Bi && node[i].getY()==Bj){
                     //System.out.println(" Goal Node co-ordinates are X "  + Bi + " Y " + Bj);
-                    node[i].setH(nodes[Bi][Bj]);
-                    goal = node[i];
+                    destinationNode = node[i];
                 }
             }
             System.out.println("");
         }
 
-        System.out.println("\n Goal Node co-ordinates are ( X - "  + goal.getX() + ") , ( Y - " + goal.getY() + " )");
+        System.out.println("\n Goal Node co-ordinates are ( X - "  + destinationNode.getX() + ") , ( Y - " + destinationNode.getY() + " )");
         System.out.println("\n Node H vales according to Manhattan distance \n " );
         for(Node[] node : nodes){
             for(int i =0;i<nodes.length;i++) {
-                node[i].setH(goal);
+                node[i].setH(destinationNode , "Manhattan");
                 int h = node[i].getH();
 
                 if(h<10)

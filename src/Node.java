@@ -9,24 +9,24 @@
 public class Node {
 
     /**
-     * How much it costs to move orthogonally from one node to another.
+     * cost for all unblocked cells on our path will equal to one (1)
      */
-    protected static final int MOVEMENT_COST = 10;
+    protected static final int COST = 1;
 
     /**
-     * The node's X position on the map.
+     * X position of the node on the grid
      */
     private int x;
 
     /**
-     * The node's Y position on the map.
+     * Y position of the node on the grid
      */
     private int y;
 
     /**
-     * If the node is not a wall and can be walked through.
+     * Boolean to check if the cell is blocked
      */
-    private boolean walkable;
+    private boolean isBlocked;
 
     /**
      * Used for when getting the resulting path. The node prior to this node.
@@ -58,7 +58,7 @@ public class Node {
     {
         this.x = x;
         this.y = y;
-        this.walkable = walkable;
+        this.isBlocked = walkable;
     }
 
     /**
@@ -69,7 +69,7 @@ public class Node {
      */
     public void setG(Node parent)
     {
-        g = (parent.getG() + MOVEMENT_COST);
+        g = (parent.getG() + COST);
     }
 
     /**
@@ -81,18 +81,34 @@ public class Node {
      */
     public int calculateG(Node parent)
     {
-        return (parent.getG() + MOVEMENT_COST);
+        return (parent.getG() + COST);
     }
 
     /**
-     * Sets the H score based on the goal's position.
+     * Sets the H score based on the goal's position in three different metrics for calculating the distance
+     * between starting node and destination node : Manhattan, Euclidean, Chebyshev.
      *
-     * @param goal
-     *            The final node on the path.
+     * @param destination The destination node
      */
-    public void setH(Node goal)
+    public void setH(Node destination , String metric)
     {
-        h = (Math.abs(getX() - goal.getX()) + Math.abs(getY() - goal.getY()));
+        switch (metric) {
+            case "Manhattan": {
+                h = (Math.abs(getX() - destination.getX()) + Math.abs(getY() - destination.getY())) * COST;
+                break;
+            }
+            case "Euclidean": {
+                h = (int) (Math.sqrt( Math.pow((getX() - destination.getX()) , 2)
+                                        - Math.pow((getY() - destination.getY()) , 2)) * COST);
+                break;
+            }
+            case "Chebyshev": {
+                h = Math.max ( Math.abs(getX() - destination.getX()) ,
+                        Math.abs(getY() - destination.getY())) * COST;
+                break;
+            }
+        }
+
     }
 
     /**
@@ -137,20 +153,20 @@ public class Node {
      * @return True if the node is not a wall and can be walked through, false
      *         otherwise.
      */
-    public boolean isWalkable()
+    public boolean isBlocked()
     {
-        return walkable;
+        return isBlocked;
     }
 
     /**
      * Sets if the node is not a wall and can be walked through.
      *
-     * @param walkable
+     * @param blocked
      *            Can you walk through this node?
      */
-    public void setWalkable(boolean walkable)
+    public void setBlocked(boolean blocked)
     {
-        this.walkable = walkable;
+        this.isBlocked = blocked;
     }
 
     /**
@@ -208,7 +224,7 @@ public class Node {
             return true;
 
         Node n = (Node) o;
-        if (n.getX() == x && n.getY() == y && n.isWalkable() == walkable)
+        if (n.getX() == x && n.getY() == y && n.isBlocked() == isBlocked)
             return true;
         return false;
     }
