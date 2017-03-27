@@ -92,7 +92,7 @@ public class Node {
      */
     public void setH(Node goal)
     {
-        h = (Math.abs(getX() - goal.getX()) + Math.abs(getY() - goal.getY())) * MOVEMENT_COST;
+        h = (Math.abs(getX() - goal.getX()) + Math.abs(getY() - goal.getY()));
     }
 
     /**

@@ -10,6 +10,12 @@ import java.util.Scanner;
 
 public class PathFindingOnSquaredGrid {
 
+    /**
+     * Array full of nodes to be used for the pathfinding.
+     */
+    private static Node[][] nodes;
+    private static Node goal;
+
 
     // given an N-by-N matrix of open cells, return an N-by-N matrix
     // of cells reachable from the top
@@ -83,6 +89,7 @@ public class PathFindingOnSquaredGrid {
     public static void show(boolean[][] a, boolean which) {
         int N = a.length;
         int boxCounter = 1;
+        nodes = new Node[N][N];
 
         StdDraw.setXscale(-1, N);
         StdDraw.setYscale(-1, N);
@@ -101,6 +108,7 @@ public class PathFindingOnSquaredGrid {
                 //StdDraw.setPenColor(StdDraw.BOOK_LIGHT_BLUE);
                 //StdDraw.text(j, N - i - 1, String.valueOf(boxCounter++));
                 //StdDraw.setPenColor(StdDraw.BLACK);
+                nodes[j][i] = new Node(j,i, a[j][i] == false);
             }
         }
 
@@ -112,6 +120,7 @@ public class PathFindingOnSquaredGrid {
         StdDraw.setXscale(-1, N);
         StdDraw.setYscale(-1, N);
         StdDraw.setPenColor(StdDraw.BLACK);
+
         for (int i = 0; i < N; i++){
             for (int j = 0; j < N; j++) {
                 if (a[i][j] == which) {
@@ -155,8 +164,11 @@ public class PathFindingOnSquaredGrid {
         //The following 2D array will number the matrix for ease of use
 
         StdArrayIO.print(randomlyGenMatrix);
+
+        //creating a map
         System.out.println();
         Map map = new Map(randomlyGenMatrix);
+
         show(randomlyGenMatrix, true);
 
         System.out.println();
@@ -193,6 +205,36 @@ public class PathFindingOnSquaredGrid {
 
         System.out.println("Coordinates for A: [" + Ai + "," + Aj + "]");
         System.out.println("Coordinates for B: [" + Bi + "," + Bj + "]");
+
+        System.out.println("\n Node Co-Ordinates \n " );
+        for(Node[] node : nodes){
+            for(int i =0;i<nodes.length;i++) {
+
+                System.out.print(" " + node[i].getX() + " , " + node[i].getY() + " | ");
+
+                if(node[i].getX() == Bi && node[i].getY()==Bj){
+                    //System.out.println(" Goal Node co-ordinates are X "  + Bi + " Y " + Bj);
+                    node[i].setH(nodes[Bi][Bj]);
+                    goal = node[i];
+                }
+            }
+            System.out.println("");
+        }
+
+        System.out.println("\n Goal Node co-ordinates are ( X - "  + goal.getX() + ") , ( Y - " + goal.getY() + " )");
+        System.out.println("\n Node H vales according to Manhattan distance \n " );
+        for(Node[] node : nodes){
+            for(int i =0;i<nodes.length;i++) {
+                node[i].setH(goal);
+                int h = node[i].getH();
+
+                if(h<10)
+                    System.out.print(" 0" + node[i].getH() + " ");
+                else
+                    System.out.print(" " + node[i].getH() + " ");
+            }
+            System.out.println("");
+        }
 
         show(randomlyGenMatrix, true, Ai, Aj, Bi, Bj);
         drawLine(Ai, Aj, Bi, Bj , N);
