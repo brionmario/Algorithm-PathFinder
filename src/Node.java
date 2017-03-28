@@ -51,14 +51,14 @@ public class Node {
      *            The node's X position on the map.
      * @param y
      *            The node's Y position on the map.
-     * @param isBlocked
+     * @param walkable
      *            If the node is not a wall and can be walked through.
      */
-    public Node(int x, int y, boolean isBlocked)
+    public Node(int x, int y, boolean walkable)
     {
         this.x = x;
         this.y = y;
-        this.isBlocked = isBlocked;
+        this.isBlocked = walkable;
     }
 
     /**
@@ -90,10 +90,8 @@ public class Node {
      *
      * @param destination The destination node
      */
-    public void setH(Node destination)
+    public void setH(Node destination , String metric)
     {
-        h = (Math.abs(getX() - destination.getX()) + Math.abs(getY() - destination.getY())) * COST;
-        /*
         switch (metric) {
             case "Manhattan": {
                 h = (Math.abs(getX() - destination.getX()) + Math.abs(getY() - destination.getY())) * COST;
@@ -101,7 +99,7 @@ public class Node {
             }
             case "Euclidean": {
                 h = (int) (Math.sqrt( Math.pow((getX() - destination.getX()) , 2)
-                                        - Math.pow((getY() - destination.getY()) , 2)) * COST);
+                        - Math.pow((getY() - destination.getY()) , 2)) * COST);
                 break;
             }
             case "Chebyshev": {
@@ -110,7 +108,6 @@ public class Node {
                 break;
             }
         }
-        */
 
     }
 
