@@ -8,7 +8,7 @@ import java.util.List;
  * @version 1.0
  * @since 27/03/2017
  */
-public class Map {
+public class Grid {
 
     /**
      * Creates a map based on a two dimensional array, where each zero is a
@@ -20,7 +20,7 @@ public class Map {
     int count = 1;
     int [][] num;
 
-    public Map(boolean[][] map)
+    public Grid(boolean[][] map)
     {
         num = new int[10][10];
 

@@ -51,14 +51,14 @@ public class Node {
      *            The node's X position on the map.
      * @param y
      *            The node's Y position on the map.
-     * @param walkable
+     * @param isBlocked
      *            If the node is not a wall and can be walked through.
      */
-    public Node(int x, int y, boolean walkable)
+    public Node(int x, int y, boolean isBlocked)
     {
         this.x = x;
         this.y = y;
-        this.isBlocked = walkable;
+        this.isBlocked = isBlocked;
     }
 
     /**
@@ -229,4 +229,15 @@ public class Node {
         return false;
     }
 
+    @Override
+    public String toString() {
+        return "Node{" +
+                "y=" + y +
+                ", x=" + x +
+                ", isBlocked=" + isBlocked +
+                ", g=" + g +
+                ", h=" + h +
+                ", parent=" + parent +
+                '}';
+    }
 }
