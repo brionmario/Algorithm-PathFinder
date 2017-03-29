@@ -13,11 +13,11 @@ import java.util.Scanner;
 
 public class Main {
 
-    /**
-     * Array full of nodes to be used for the pathfinding.
-     */
+    //2D array of Nodes
     private static Node[][] nodes;
+    //An instance of Node to save the destination node's info
     private static Node destinationNode;
+    //The size of the matrix ( one side )
     private static final int N = 10;
 
 
@@ -99,7 +99,7 @@ public class Main {
         StdDraw.setYscale(-1, N);
         StdDraw.setPenColor(StdDraw.BLACK);
 
-        System.out.println("\n Checking if the nodes are created properly \n");
+
         for (int i = 0; i < N; i++) {
             for (int j = 0; j < N; j++) {
 
@@ -115,12 +115,12 @@ public class Main {
                     StdDraw.filledSquare(j, N - i- 1, .5);
                     nodes[i][j] = new Node(i,j, false );
                 }
-                //StdDraw.setPenColor(StdDraw.BOOK_LIGHT_BLUE);
-                //StdDraw.text(j, N - i - 1, String.valueOf(boxCounter++));
-                //StdDraw.setPenColor(StdDraw.BLACK);
-                System.out.print(" "+ nodes[i][j].isBlocked() + " ");
+                StdDraw.setPenColor(StdDraw.BLACK);
+                StdDraw.text(j, N - i - 1, ("("+ i + "," + j + ")"));
+
+                //System.out.print(" "+ nodes[i][j].isNotBlocked() + " ");
             }
-            System.out.println();
+            //System.out.println();
         }
 
     }
@@ -172,17 +172,13 @@ public class Main {
 
         // The following will generate a NxN squared grid with relatively few obstacles in it
         // The lower the second parameter, the more obstacles (black cells) are generated
-        boolean[][] randomlyGenMatrix = random(N, 0.8);
+        boolean[][] randomlyGenMatrix = random(N,0.8);
 
         //printing the boolean array on the console
         StdArrayIO.print(randomlyGenMatrix);
 
         //drawing the matrix
         show(randomlyGenMatrix, true);
-
-        //creating a grid
-        System.out.println();
-        Grid grid = new Grid(randomlyGenMatrix);
 
         System.out.println();
         System.out.println("The system percolates: " + percolates(randomlyGenMatrix));
@@ -191,49 +187,43 @@ public class Main {
         System.out.println("The system percolates directly: " + percolatesDirect(randomlyGenMatrix));
         System.out.println();
 
-        // Reading the coordinates for points A and B on the input squared grid.
-
-        // THIS IS AN EXAMPLE ONLY ON HOW TO USE THE JAVA INTERNAL WATCH
-        // Start the clock ticking in order to capture the time being spent on inputting the coordinates
-        // You should position this command accordingly in order to perform the algorithmic analysis
-        Stopwatch timerFlow = new Stopwatch();
 
         Scanner in = new Scanner(System.in);
-        System.out.println("Enter i for A > ");
+        System.out.println("Enter i for A (Row number) > ");
         int Ai = in.nextInt();
 
-        System.out.println("Enter j for A > ");
+        System.out.println("Enter j for A (Column number) > ");
         int Aj = in.nextInt();
 
-        System.out.println("Enter i for B > ");
+        System.out.println("Enter i for B (Row number) > ");
         int Bi = in.nextInt();
 
-        System.out.println("Enter j for B > ");
+        System.out.println("Enter j for B (Column number) > ");
         int Bj = in.nextInt();
 
-        // THIS IS AN EXAMPLE ONLY ON HOW TO USE THE JAVA INTERNAL WATCH
-        // Stop the clock ticking in order to capture the time being spent on inputting the coordinates
-        // You should position this command accordingly in order to perform the algorithmic analysis
-        StdOut.println("Elapsed time = " + timerFlow.elapsedTime());
 
-        System.out.println("Coordinates for A: [" + Ai + "," + Aj + "]");
-        System.out.println("Coordinates for B: [" + Bi + "," + Bj + "]");
+        //System.out.println("Coordinates for A: [" + Ai + "," + Aj + "]");
+        //System.out.println("Coordinates for B: [" + Bi + "," + Bj + "]");
 
-        System.out.println("\n Node Co-Ordinates \n " );
+
+        // Checking the node co-ordinates
+        //System.out.println("\n Node Co-Ordinates \n " );
         for(Node[] node : nodes){
             for(int i =0;i<nodes.length;i++) {
 
-                System.out.print(" " + node[i].getX() + " , " + node[i].getY() + " | ");
+                //System.out.print(" " + node[i].getI() + " , " + node[i].getJ() + " | ");
 
-                if(node[i].getX() == Bi && node[i].getY()==Bj){
-                    //System.out.println(" Goal Node co-ordinates are X "  + Bi + " Y " + Bj);
+                if(node[i].getI() == Bi && node[i].getJ()==Bj){
+                    //setting the goal node
                     destinationNode = node[i];
                 }
             }
-            System.out.println("");
+            //System.out.println("");
         }
 
-        System.out.println("\n Goal Node co-ordinates are ( i - "  + destinationNode.getX() + ") , ( j - " + destinationNode.getY() + " )");
+
+        //printing out the destination node co-odinates
+        System.out.println("\n Goal Node co-ordinates are ( i - "  + destinationNode.getI() + ") , ( j - " + destinationNode.getJ() + " )");
 
         //calculate the heuristic values
         calcHeuristic(nodes);
@@ -241,7 +231,9 @@ public class Main {
         show(randomlyGenMatrix, true, Ai, Aj, Bi, Bj);
 
 
+        Stopwatch timerFlow = new Stopwatch();
         List<Node> node = findPath(Ai, Aj, Bi, Bj);
+        StdOut.println("Elapsed time = " + timerFlow.elapsedTime());
         System.out.println(Arrays.toString(node.toArray()));
 
         drawLine(Ai, Aj, Bi, Bj , N , node);
@@ -262,11 +254,14 @@ public class Main {
         StdDraw.setYscale(-1,N);
 
         for(Node node : nodes){
+
             StdDraw.setPenRadius(0.01);
             StdDraw.setPenColor(StdDraw.RED);
             //StdDraw.line( aj , N-ai-1 , bj , N-bi-1 );
-            StdDraw.line( node.getParent().getY() ,N - node.getParent().getX() -1, node.getY() ,N- node.getX() -1 );
+            StdDraw.line( node.getParent().getJ() ,N - node.getParent().getI() -1, node.getJ() ,N- node.getI() -1 );
             StdDraw.setPenColor(StdDraw.BLACK);
+            StdDraw.show(150);
+
         }
 
     }
@@ -281,7 +276,7 @@ public class Main {
         for(Node[] node : nodes){
             for(int i =0;i<nodes.length;i++) {
 
-                if (node[i].isBlocked() == true) {
+                if (node[i].isNotBlocked() == true) {
                     node[i].setH(destinationNode, "Manhattan");
                     int h = node[i].getH();
 
@@ -340,7 +335,7 @@ public class Main {
             closedList.add(current);
 
             // If the current node position is equal to the goal position ...
-            if ((current.getX() == goalX) && (current.getY() == goalY))
+            if ((current.getI() == goalX) && (current.getJ() == goalY))
             {
                 // Return a LinkedList containing all of the visited nodes.
                 return calcPath(nodes[startX][startY], current);
@@ -363,7 +358,7 @@ public class Main {
                 }
                 // Else if the node is in the open list and the G score from
                 // current node is cheaper than previous costs ...
-                else if (adjacent.getG() > adjacent.calculateG(current))
+                else if (adjacent.getG() > adjacent.calculateGValue(current))
                 {
                     // Set current node as parent for this node.
                     adjacent.setParent(current);
@@ -437,8 +432,8 @@ public class Main {
     private static List<Node> getAdjacent(Node node, List<Node> closedList)
     {
         List<Node> adjacentNodes = new LinkedList<Node>();
-        int x = node.getX();
-        int y = node.getY();
+        int x = node.getI();
+        int y = node.getJ();
 
         Node adjacent;
 
@@ -446,7 +441,7 @@ public class Main {
         if (x > 0)
         {
             adjacent = getNode(x - 1, y);
-            if (adjacent != null && adjacent.isBlocked() && !closedList.contains(adjacent))
+            if (adjacent != null && adjacent.isNotBlocked() && !closedList.contains(adjacent))
             {
                 adjacentNodes.add(adjacent);
             }
@@ -456,7 +451,7 @@ public class Main {
         if (x < N)
         {
             adjacent = getNode(x + 1, y);
-            if (adjacent != null && adjacent.isBlocked() && !closedList.contains(adjacent))
+            if (adjacent != null && adjacent.isNotBlocked() && !closedList.contains(adjacent))
             {
                 adjacentNodes.add(adjacent);
             }
@@ -466,7 +461,7 @@ public class Main {
         if (y > 0)
         {
             adjacent = getNode(x, y - 1);
-            if (adjacent != null && adjacent.isBlocked() && !closedList.contains(adjacent))
+            if (adjacent != null && adjacent.isNotBlocked() && !closedList.contains(adjacent))
             {
                 adjacentNodes.add(adjacent);
             }
@@ -476,7 +471,7 @@ public class Main {
         if (y < N)
         {
             adjacent = getNode(x, y + 1);
-            if (adjacent != null && adjacent.isBlocked() && !closedList.contains(adjacent))
+            if (adjacent != null && adjacent.isNotBlocked() && !closedList.contains(adjacent))
             {
                 adjacentNodes.add(adjacent);
             }

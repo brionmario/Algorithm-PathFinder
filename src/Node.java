@@ -9,63 +9,59 @@
 public class Node {
 
     /**
-     * cost for all unblocked cells on our path will equal to one (1)
+     * row number of the node on the grid
      */
-    protected static final int COST = 1;
+    private int i;
 
     /**
-     * X position of the node on the grid
+     * column number of the node on the grid
      */
-    private int x;
+    private int j;
 
     /**
-     * Y position of the node on the grid
+     * Boolean to check if the node is blocked or not
      */
-    private int y;
+    private boolean notBlocked;
 
     /**
-     * Boolean to check if the cell is blocked
-     */
-    private boolean isBlocked;
-
-    /**
-     * Used for when getting the resulting path. The node prior to this node.
+     * The parent node to the current node (used to find the path)
      */
     private Node parent;
 
     /**
-     * The cost of getting from the first node to this node.
+     * The cost of getting from the previous node to current node.
      */
     private int g;
 
     /**
-     * A heuristic that estimates the cost of the cheapest path from this node
-     * to the goal.
+     * Heuristic that calculates the cost of the cheapest path from current node
+     * to the goal node.
      */
     private int h;
 
     /**
-     * Creates a simple node.
-     *
-     * @param x
-     *            The node's X position on the map.
-     * @param y
-     *            The node's Y position on the map.
-     * @param isBlocked
-     *            If the node is not a wall and can be walked through.
+     * cost for all unblocked nodes on our path will equal to one ( Spec instructs to assume it as one)
      */
-    public Node(int x, int y, boolean isBlocked)
+    protected static final int COST = 1;
+
+    /**
+     * Constructor to build a node
+     *
+     * @param i Node's row number on the grid
+     * @param j Node's column number on the grid
+     * @param notBlocked Says if the node is blocked or not. ( true = not blocked , false = blocked)
+     */
+    public Node(int i, int j, boolean notBlocked)
     {
-        this.x = x;
-        this.y = y;
-        this.isBlocked = isBlocked;
+        this.i = i;
+        this.j = j;
+        this.notBlocked = notBlocked;
     }
 
     /**
-     * Sets the G score based on the parent's G score and the movement cost.
+     * Sets the G value based on the parent node's G value and the movement cost.
      *
-     * @param parent
-     *            The node prior to this one.
+     * @param parent The previous node to this node
      */
     public void setG(Node parent)
     {
@@ -73,19 +69,18 @@ public class Node {
     }
 
     /**
-     * Calculates and return the G score, without changing it on the class.
+     * Calculates and returns the G value
      *
-     * @param parent
-     *            The node prior to this one.
-     * @return This node's G score.
+     * @param parent The previous node to this node
+     * @return This node's G value
      */
-    public int calculateG(Node parent)
+    public int calculateGValue(Node parent)
     {
         return (parent.getG() + COST);
     }
 
     /**
-     * Sets the H score based on the goal's position in three different metrics for calculating the distance
+     * Sets the Heuristic based on the goal's position in three different metrics for calculating the distance
      * between starting node and destination node : Manhattan, Euclidean, Chebyshev.
      *
      * @param destination The destination node
@@ -94,17 +89,17 @@ public class Node {
     {
         switch (metric) {
             case "Manhattan": {
-                h = (Math.abs(getX() - destination.getX()) + Math.abs(getY() - destination.getY())) * COST;
+                h = (Math.abs(getI() - destination.getI()) + Math.abs(getJ() - destination.getJ())) * COST;
                 break;
             }
             case "Euclidean": {
-                h = (int) (Math.sqrt( Math.pow((getX() - destination.getX()) , 2)
-                        - Math.pow((getY() - destination.getY()) , 2)) * COST);
+                h = (int) (Math.sqrt( Math.pow((getI() - destination.getI()) , 2)
+                        - Math.pow((getJ() - destination.getJ()) , 2)) * COST);
                 break;
             }
             case "Chebyshev": {
-                h = Math.max ( Math.abs(getX() - destination.getX()) ,
-                        Math.abs(getY() - destination.getY())) * COST;
+                h = Math.max ( Math.abs(getI() - destination.getI()) ,
+                        Math.abs(getJ() - destination.getJ())) * COST;
                 break;
             }
         }
@@ -112,65 +107,62 @@ public class Node {
     }
 
     /**
-     * @return The node's X position on the map.
+     * @return The node's row number on the grid
      */
-    public int getX()
+    public int getI()
     {
-        return x;
+        return i;
     }
 
     /**
-     * Sets the node's X position on the map;
+     * Sets the node's row number on the grid
      *
-     * @param x
-     *            The X position to be set.
+     * @param i row number of the node to be set
      */
-    public void setX(int x)
+    public void setI(int i)
     {
-        this.x = x;
+        this.i = i;
     }
 
     /**
-     * @return The node's Y position on the map.
+     * @return The node's column number on the grid
      */
-    public int getY()
+    public int getJ()
     {
-        return y;
+        return j;
     }
 
     /**
-     * Sets the node's Y position on the map;
+     * Sets the node's column number on the grid
      *
-     * @param y
-     *            The Y position to be set.
+     * @param j  column number of the node to be set
      */
-    public void setY(int y)
+    public void setJ(int j)
     {
-        this.y = y;
+        this.j = j;
     }
 
     /**
-     * @return True if the node is not a wall and can be walked through, false
-     *         otherwise.
+     * @return True if the node is not blocked and can be walked through, false if the node is blocked
+     * and can't be walked
      */
-    public boolean isBlocked()
+    public boolean isNotBlocked()
     {
-        return isBlocked;
+        return notBlocked;
     }
 
     /**
-     * Sets if the node is not a wall and can be walked through.
+     * Sets if the node is not blocked and can be walked through
      *
-     * @param blocked
-     *            Can you walk through this node?
+     * @param notBlocked is this node blocked or not
      */
-    public void setBlocked(boolean blocked)
+    public void setNotBlocked(boolean notBlocked)
     {
-        this.isBlocked = blocked;
+        this.notBlocked = notBlocked;
     }
 
     /**
-     * @return The node prior to this node.
+     * @return The parent node to this node ( previous node )
      */
     public Node getParent()
     {
@@ -180,8 +172,7 @@ public class Node {
     /**
      * Sets the node prior to this one.
      *
-     * @param parent
-     *            The node to be set as this node's parent.
+     * @param parent The node to be set as this node's parent
      */
     public void setParent(Node parent)
     {
@@ -189,7 +180,7 @@ public class Node {
     }
 
     /**
-     * @return The G score + the H score.
+     * @return The F value. ( i.e G value + the H value )
      */
     public int getF()
     {
@@ -197,7 +188,7 @@ public class Node {
     }
 
     /**
-     * @return The cost of getting from the first node to this node.
+     * @return The cost of getting from the parent node to this node.
      */
     public int getG()
     {
@@ -206,13 +197,19 @@ public class Node {
 
     /**
      * @return A heuristic that estimates the cost of the cheapest path from
-     *         this node to the goal.
+     *         this node to the goal node
      */
     public int getH()
     {
         return h;
     }
 
+    /**
+     * Overrides the default equals method .  To check if the current node is the same as the goal node.
+     *
+     * @param o The goal node
+     * @return True if the node passed is same as the current node
+     */
     @Override
     public boolean equals(Object o)
     {
@@ -224,20 +221,20 @@ public class Node {
             return true;
 
         Node n = (Node) o;
-        if (n.getX() == x && n.getY() == y && n.isBlocked() == isBlocked)
+        if (n.getI() == i && n.getJ() == j && n.isNotBlocked() == notBlocked)
             return true;
         return false;
     }
 
     @Override
     public String toString() {
-        return "Node{" +
-                "y=" + y +
-                ", x=" + x +
-                ", isBlocked=" + isBlocked +
-                ", g=" + g +
-                ", h=" + h +
-                ", parent=" + parent +
-                '}';
+        return "Node (" +
+                "i=" + i +
+                ", j=" + j +
+                //", notBlocked=" + notBlocked +
+               //", g=" + g +
+               // ", h=" + h +
+                //", parent=" + parent +
+                ')';
     }
 }
