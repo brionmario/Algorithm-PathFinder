@@ -76,7 +76,7 @@ public class AStar {
                     // Set H costs of this node (estimated costs to goal).
                     adjacent.setH(nodes[goalI][goalJ] , metric);
                     // Set G costs of this node (costs from start to this node).
-                    adjacent.setG(current);
+                    //adjacent.setG(current);
                     // Add node to openList.
                     openList.add(adjacent);
                 }
@@ -87,7 +87,7 @@ public class AStar {
                     // Set current node as parent for this node.
                     adjacent.setParent(current);
                     // Set G costs of this node (costs from start to this node).
-                    adjacent.setG(current);
+                    //adjacent.setG(current);
                 }
             }
 
@@ -161,34 +161,83 @@ public class AStar {
 
         Node adjacent;
 
-        // Check top node
+        // Check top nodes
         if (i > 0)
         {
+            //Top node
             adjacent = getNode(i - 1, j );
             if (adjacent != null && adjacent.isNotBlocked() && !closedList.contains(adjacent))
             {
+                adjacent.setG(node , 1.0);
                 adjacentNodes.add(adjacent);
+            }
+
+            // Top Left
+            if (j - 1 >= 0) {
+                adjacent = getNode(i - 1, j - 1 );
+                if (adjacent != null && adjacent.isNotBlocked() && !closedList.contains(adjacent))
+                {
+                    adjacent.setG(node , 1.4);
+                    adjacentNodes.add(adjacent);
+                }
+            }
+
+            // Top Right
+            if (j + 1 < N) {
+                adjacent = getNode(i - 1, j + 1 );
+                if (adjacent != null && adjacent.isNotBlocked() && !closedList.contains(adjacent))
+                {
+                    adjacent.setG(node , 1.4);
+                    adjacentNodes.add(adjacent);
+                }
             }
         }
 
-        // Check bottom node
+        // Check bottom nodes
         if (i < N)
         {
+            //bottom node
             adjacent = getNode(i + 1, j);
             if (adjacent != null && adjacent.isNotBlocked() && !closedList.contains(adjacent))
             {
+                adjacent.setG(node , 1.0);
                 adjacentNodes.add(adjacent);
             }
+
+            //bottom left node
+            if (j - 1 >= 0) {
+                adjacent = getNode(i + 1, j-1);
+                if (adjacent != null && adjacent.isNotBlocked() && !closedList.contains(adjacent))
+                {
+                    adjacent.setG(node , 1.4);
+                    adjacentNodes.add(adjacent);
+                }
+            }
+
+            //bottom right node
+            if (j + 1 > N) {
+                adjacent = getNode(i + 1, j+1);
+                if (adjacent != null && adjacent.isNotBlocked() && !closedList.contains(adjacent))
+                {
+                    adjacent.setG(node , 1.4);
+                    adjacentNodes.add(adjacent);
+                }
+            }
+
         }
 
         // Check left node
         if (j > 0)
         {
+
             adjacent = getNode(i, j - 1);
             if (adjacent != null && adjacent.isNotBlocked() && !closedList.contains(adjacent))
             {
+                adjacent.setG(node , 1.0);
                 adjacentNodes.add(adjacent);
             }
+
+
         }
 
         // Check right node
@@ -197,6 +246,7 @@ public class AStar {
             adjacent = getNode(i, j + 1);
             if (adjacent != null && adjacent.isNotBlocked() && !closedList.contains(adjacent))
             {
+                adjacent.setG(node , 1.0);
                 adjacentNodes.add(adjacent);
             }
         }

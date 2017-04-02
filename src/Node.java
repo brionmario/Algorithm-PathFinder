@@ -42,7 +42,7 @@ public class Node {
     /**
      * cost for all unblocked nodes on our path will equal to one ( Spec instructs to assume it as one)
      */
-    protected static final int COST = 1;
+    private double COST;
 
     /**
      * Constructor to build a node
@@ -63,9 +63,11 @@ public class Node {
      *
      * @param parent The previous node to this node
      */
-    public void setG(Node parent)
+    public void setG(Node parent , double MOVEMENTCOST)
     {
-        g = (parent.getG() + COST);
+        double gValue = (parent.getG() + MOVEMENTCOST);
+        setCOST(MOVEMENTCOST);
+        g = Math.round(gValue * 10) / 10.0;
     }
 
     /**
@@ -76,30 +78,37 @@ public class Node {
      */
     public double calculateGValue(Node parent)
     {
-        return (parent.getG() + COST);
+        return (parent.getG() + getCOST());
     }
 
     /**
+     *
      * Sets the Heuristic based on the goal's position in three different metrics for calculating the distance
      * between starting node and destination node : Manhattan, Euclidean, Chebyshev.
      *
      * @param destination The destination node
+     *
      */
     public void setH(Node destination , String metric)
     {
+        double hValue;
+
         switch (metric) {
             case "Manhattan": {
-                h = (Math.abs(getI() - destination.getI()) + Math.abs(getJ() - destination.getJ())) * COST;
+                hValue = (Math.abs(getI() - destination.getI()) + Math.abs(getJ() - destination.getJ())) ;
+                h = Math.round(hValue * 10) / 10.0;
                 break;
             }
             case "Euclidean": {
-                h =  (Math.sqrt( Math.pow((getI() - destination.getI()) , 2)
-                        - Math.pow((getJ() - destination.getJ()) , 2)) * COST);
+                hValue =  (Math.sqrt( Math.pow((getI() - destination.getI()) , 2)
+                        - Math.pow((getJ() - destination.getJ()) , 2)) );
+                h = Math.round(hValue * 10) / 10.0;
                 break;
             }
             case "Chebyshev": {
-                h = Math.max ( Math.abs(getI() - destination.getI()) ,
-                        Math.abs(getJ() - destination.getJ())) * COST;
+                hValue = Math.max ( Math.abs(getI() - destination.getI()) ,
+                        Math.abs(getJ() - destination.getJ()));
+                h = Math.round(hValue * 10) / 10.0;
                 break;
             }
         }
@@ -184,6 +193,7 @@ public class Node {
      */
     public double getF()
     {
+
         return g + h;
     }
 
@@ -236,5 +246,13 @@ public class Node {
                // ", h=" + h +
                 //", parent=" + parent +
                 ')';
+    }
+
+    public double getCOST() {
+        return COST;
+    }
+
+    public void setCOST(double COST) {
+        this.COST = COST;
     }
 }

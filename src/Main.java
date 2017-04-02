@@ -232,22 +232,94 @@ public class Main {
         //plots the two circles on the grid
         show(randomlyGenMatrix, true, Ai, Aj, Bi, Bj);
 
-        String metricType = "Chebyshev";
+        int option;
 
-        //starts the stopwatch to calculate the time spent to find the shortest path
-        Stopwatch timerFlow = new Stopwatch();
-        //stores the list of nodes returned by the find path method
-        List<Node> finalPath = new AStar(N, nodes , metricType).findPath(Ai, Aj, Bi, Bj);
-        StdOut.println("\n Elapsed time = " + timerFlow.elapsedTime());
-        System.out.println("\n Path followed - " + Arrays.toString(finalPath.toArray()));
+        do {
+            System.out.println("Please select a preferred distance metric.");
+            System.out.println("1. Manhattan Distance");
+            System.out.println("2. Euclidean Distance");
+            System.out.println("3. Chebyshev Distance");
+
+            System.out.println("\n0. To Exit");
 
 
-        //draws the shortest path on the grid
-        new Main().drawLine( N , finalPath , Color.RED);
+            String metricType;
 
-        new Test(metricType).printH(nodes);
-        new Test(metricType).printG(nodes);
-        new Test(metricType).printF(nodes);
+            option = in.nextInt();
+            switch (option) {
+                case 1: {
+                    metricType = "Manhattan";
+                    //starts the stopwatch to calculate the time spent to find the shortest path
+                    Stopwatch timerFlow = new Stopwatch();
+                    //stores the list of nodes returned by the find path method
+                    List<Node> finalPath = new AStar(N, nodes, metricType).findPath(Ai, Aj, Bi, Bj);
+                    StdOut.println("\n Elapsed time = " + timerFlow.elapsedTime());
+                    System.out.println("\n Path followed - " + Arrays.toString(finalPath.toArray()));
+
+
+                    //draws the shortest path on the grid
+                    new Main().drawLine(N, finalPath, Color.RED);
+
+                    new Test(metricType).printH(nodes);
+                    new Test(metricType).printG(nodes);
+                    new Test(metricType).printF(nodes);
+
+                    break;
+                }
+
+                case 2: {
+                    StdDraw.clear(Color.WHITE);
+                    //drawing the matrix
+                    show(randomlyGenMatrix, true);
+                    metricType = "Euclidean";
+                    //starts the stopwatch to calculate the time spent to find the shortest path
+                    Stopwatch timerFlow = new Stopwatch();
+                    //stores the list of nodes returned by the find path method
+                    List<Node> finalPath = new AStar(N, nodes, metricType).findPath(Ai, Aj, Bi, Bj);
+                    StdOut.println("\n Elapsed time = " + timerFlow.elapsedTime());
+                    System.out.println("\n Path followed - " + Arrays.toString(finalPath.toArray()));
+
+
+                    //draws the shortest path on the grid
+                    new Main().drawLine(N, finalPath, Color.BLUE);
+
+                    new Test(metricType).printH(nodes);
+                    new Test(metricType).printG(nodes);
+                    new Test(metricType).printF(nodes);
+
+                    break;
+                }
+
+                case 3: {
+                    metricType = "Chebyshev";
+                    //starts the stopwatch to calculate the time spent to find the shortest path
+                    Stopwatch timerFlow = new Stopwatch();
+                    //stores the list of nodes returned by the find path method
+                    List<Node> finalPath = new AStar(N, nodes, metricType).findPath(Ai, Aj, Bi, Bj);
+                    StdOut.println("\n Elapsed time = " + timerFlow.elapsedTime());
+                    System.out.println("\n Path followed - " + Arrays.toString(finalPath.toArray()));
+
+
+                    //draws the shortest path on the grid
+                    new Main().drawLine(N, finalPath, Color.GREEN);
+
+                    new Test(metricType).printH(nodes);
+                    new Test(metricType).printG(nodes);
+                    new Test(metricType).printF(nodes);
+
+                    break;
+                }
+
+                case 0: {
+
+                    System.exit(0);
+
+                    break;
+                }
+            }
+        }while (option!=0);
+
+
 
 
     }
@@ -261,8 +333,6 @@ public class Main {
 
         StdDraw.setXscale(-1,N);
         StdDraw.setYscale(-1,N);
-
-
 
         for(Node node : nodes){
 
