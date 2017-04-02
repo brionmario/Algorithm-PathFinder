@@ -21,6 +21,8 @@ public class Main {
     //The size of the matrix ( one side )
     //private static final int N = 10;
 
+    //colors object for styling
+    static Colors colors = new Colors();
 
     // given an N-by-N matrix of open cells, return an N-by-N matrix
     // of cells reachable from the top
@@ -91,7 +93,7 @@ public class Main {
     }
 
     // draw the N-by-N boolean matrix to standard draw
-    public static void show(boolean[][] a, boolean which) {
+    public void show(boolean[][] a, boolean which) {
         int N = a.length;
         int boxCounter = 1;
         nodes = new Node[N][N];
@@ -127,7 +129,7 @@ public class Main {
     }
 
     // draw the N-by-N boolean matrix to standard draw, including the points A (x1, y1) and B (x2,y2) to be marked by a circle
-    public static void show(boolean[][] a, boolean which, int x1, int y1, int x2, int y2) {
+    public void show(boolean[][] a, boolean which, int x1, int y1, int x2, int y2) {
         int N = a.length;
         StdDraw.setXscale(-1, N);
         StdDraw.setYscale(-1, N);
@@ -179,7 +181,7 @@ public class Main {
         StdArrayIO.print(randomlyGenMatrix);
 
         //drawing the matrix
-        show(randomlyGenMatrix, true);
+        new Main().show(randomlyGenMatrix, true);
 
         System.out.println();
         System.out.println("The system percolates: " + percolates(randomlyGenMatrix));
@@ -224,22 +226,21 @@ public class Main {
 
 
         //printing out the destination node co-odinates
-        System.out.println("\n Goal Node co-ordinates are ( i - "  + destinationNode.getI() + ") , ( j - " + destinationNode.getJ() + " )");
+        //System.out.println("\nGoal Node co-ordinates are ( i - "  + destinationNode.getI() + ") , ( j - " + destinationNode.getJ() + " )");
 
         //calculate the heuristic values and prints on the console
         //calculateHeuristic(nodes);
 
         //plots the two circles on the grid
-        show(randomlyGenMatrix, true, Ai, Aj, Bi, Bj);
+        new Main().show(randomlyGenMatrix, true, Ai, Aj, Bi, Bj);
 
         int option;
 
         do {
-            System.out.println("Please select a preferred distance metric.");
-            System.out.println("1. Manhattan Distance");
-            System.out.println("2. Euclidean Distance");
-            System.out.println("3. Chebyshev Distance");
-
+            System.out.println("\nPlease select a preferred distance metric.\n");
+            System.out.println(colors.RED + "1. Manhattan Distance" + colors.RESET);
+            System.out.println(colors.BLUE + "2. Euclidean Distance" + colors.RESET);
+            System.out.println(colors.GREEN + "3. Chebyshev Distance" + colors.RESET);
             System.out.println("\n0. To Exit");
 
 
@@ -268,9 +269,10 @@ public class Main {
                 }
 
                 case 2: {
-                    StdDraw.clear(Color.WHITE);
-                    //drawing the matrix
-                    show(randomlyGenMatrix, true);
+                    StdDraw.clear();
+                    new Main().show(randomlyGenMatrix, true);
+                    new Main().show(randomlyGenMatrix, true, Ai, Aj, Bi, Bj);
+
                     metricType = "Euclidean";
                     //starts the stopwatch to calculate the time spent to find the shortest path
                     Stopwatch timerFlow = new Stopwatch();
@@ -291,6 +293,10 @@ public class Main {
                 }
 
                 case 3: {
+                    StdDraw.clear();
+                    new Main().show(randomlyGenMatrix, true);
+                    new Main().show(randomlyGenMatrix, true, Ai, Aj, Bi, Bj);
+
                     metricType = "Chebyshev";
                     //starts the stopwatch to calculate the time spent to find the shortest path
                     Stopwatch timerFlow = new Stopwatch();
@@ -341,7 +347,7 @@ public class Main {
             //StdDraw.line( aj , N-ai-1 , bj , N-bi-1 );
             StdDraw.line( node.getParent().getJ() ,N - node.getParent().getI() -1, node.getJ() ,N- node.getI() -1 );
             StdDraw.setPenColor(StdDraw.BLACK);
-            StdDraw.show(150);
+            StdDraw.show();
 
         }
 

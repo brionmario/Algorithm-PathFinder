@@ -14,11 +14,25 @@ public class AStar {
     private String metric; //stores the distance measurement type
     private Node[][] nodes; //2D array to store the nodes on the grid
 
+    private double hvCost;
+    private double diagonalCost;
+
 
     public AStar(int N , Node[][] nodes , String metric){
         this.N = N;
         this.nodes = nodes;
         this.metric = metric;
+
+        if(metric.equals("Manhattan")){
+            hvCost = 1.0;
+            diagonalCost=2.0;
+        }else if(metric.equals("Euclidean")){
+            hvCost = 1.0;
+            diagonalCost=1.4;
+        }else if(metric.equals("Chebyshev")){
+            hvCost = 1.0;
+            diagonalCost=1.0;
+        }
     }
 
     /**
@@ -168,7 +182,7 @@ public class AStar {
             adjacent = getNode(i - 1, j );
             if (adjacent != null && adjacent.isNotBlocked() && !closedList.contains(adjacent))
             {
-                adjacent.setG(node , 1.0);
+                adjacent.setG(node , hvCost);
                 adjacentNodes.add(adjacent);
             }
 
@@ -177,7 +191,7 @@ public class AStar {
                 adjacent = getNode(i - 1, j - 1 );
                 if (adjacent != null && adjacent.isNotBlocked() && !closedList.contains(adjacent))
                 {
-                    adjacent.setG(node , 1.4);
+                    adjacent.setG(node , diagonalCost);
                     adjacentNodes.add(adjacent);
                 }
             }
@@ -187,7 +201,7 @@ public class AStar {
                 adjacent = getNode(i - 1, j + 1 );
                 if (adjacent != null && adjacent.isNotBlocked() && !closedList.contains(adjacent))
                 {
-                    adjacent.setG(node , 1.4);
+                    adjacent.setG(node , diagonalCost);
                     adjacentNodes.add(adjacent);
                 }
             }
@@ -200,7 +214,7 @@ public class AStar {
             adjacent = getNode(i + 1, j);
             if (adjacent != null && adjacent.isNotBlocked() && !closedList.contains(adjacent))
             {
-                adjacent.setG(node , 1.0);
+                adjacent.setG(node , hvCost);
                 adjacentNodes.add(adjacent);
             }
 
@@ -209,7 +223,7 @@ public class AStar {
                 adjacent = getNode(i + 1, j-1);
                 if (adjacent != null && adjacent.isNotBlocked() && !closedList.contains(adjacent))
                 {
-                    adjacent.setG(node , 1.4);
+                    adjacent.setG(node , diagonalCost);
                     adjacentNodes.add(adjacent);
                 }
             }
@@ -219,7 +233,7 @@ public class AStar {
                 adjacent = getNode(i + 1, j+1);
                 if (adjacent != null && adjacent.isNotBlocked() && !closedList.contains(adjacent))
                 {
-                    adjacent.setG(node , 1.4);
+                    adjacent.setG(node , diagonalCost);
                     adjacentNodes.add(adjacent);
                 }
             }
@@ -233,7 +247,7 @@ public class AStar {
             adjacent = getNode(i, j - 1);
             if (adjacent != null && adjacent.isNotBlocked() && !closedList.contains(adjacent))
             {
-                adjacent.setG(node , 1.0);
+                adjacent.setG(node , hvCost);
                 adjacentNodes.add(adjacent);
             }
 
@@ -246,7 +260,7 @@ public class AStar {
             adjacent = getNode(i, j + 1);
             if (adjacent != null && adjacent.isNotBlocked() && !closedList.contains(adjacent))
             {
-                adjacent.setG(node , 1.0);
+                adjacent.setG(node , hvCost);
                 adjacentNodes.add(adjacent);
             }
         }
