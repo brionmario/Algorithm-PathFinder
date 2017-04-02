@@ -25,13 +25,13 @@ public class AStar {
 
         if(metric.equals("Manhattan")){
             hvCost = 1.0;
-            diagonalCost=2.0;
+            diagonalCost = 2.0;
         }else if(metric.equals("Euclidean")){
             hvCost = 1.0;
-            diagonalCost=1.4;
+            diagonalCost = 1.4;
         }else if(metric.equals("Chebyshev")){
             hvCost = 1.0;
-            diagonalCost=1.0;
+            diagonalCost = 1.0;
         }
     }
 

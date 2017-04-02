@@ -133,17 +133,22 @@ public class Main {
         int N = a.length;
         StdDraw.setXscale(-1, N);
         StdDraw.setYscale(-1, N);
-        StdDraw.setPenColor(StdDraw.BLACK);
+
 
         for (int i = 0; i < N; i++){
             for (int j = 0; j < N; j++) {
                 if (a[i][j] == which) {
 
-                    if ((i == x1 && j == y1) || (i == x2 && j == y2)) {
+                    if (i == x1 && j == y1) {
+                        StdDraw.setPenColor(StdDraw.GREEN);
+                        StdDraw.filledCircle(j, N - i - 1, .5);
+                        StdDraw.setPenColor(StdDraw.BLACK);
 
-                        StdDraw.circle(j, N - i - 1, .5);
-
-                    } else {
+                    }else if(i == x2 && j == y2){
+                        StdDraw.setPenColor(StdDraw.RED);
+                        StdDraw.filledCircle(j, N - i - 1, .5);
+                        StdDraw.setPenColor(StdDraw.BLACK);
+                    }else {
 
                         StdDraw.square(j, N - i - 1, .5);
                     }
