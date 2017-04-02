@@ -24,6 +24,7 @@ public class Main {
     //colors object for styling
     static Colors colors = new Colors();
 
+
     // given an N-by-N matrix of open cells, return an N-by-N matrix
     // of cells reachable from the top
     public static boolean[][] flow(boolean[][] open) {
@@ -119,6 +120,13 @@ public class Main {
                     nodes[i][j] = new Node(i,j, false );
                 }
                 StdDraw.setPenColor(StdDraw.BLACK);
+
+                if(N<15)
+                    StdDraw.setFont(new Font("TimesRoman", Font.PLAIN , 10));
+                else if (N<25)
+                    StdDraw.setFont(new Font("TimesRoman", Font.PLAIN , 5));
+                else
+                    StdDraw.setFont(new Font("TimesRoman", Font.PLAIN , 0));
                 StdDraw.text(j, N - i - 1, ("("+ i + "," + j + ")"));
 
                 //System.out.print(" "+ nodes[i][j].isNotBlocked() + " ");
@@ -174,30 +182,49 @@ public class Main {
 
     // test client
     public static void main(String[] args) {
+
+        Scanner in = new Scanner(System.in);
+
         //integer to store the matrix size
-        int N = 10;
+        int N;
         // boolean[][] open = StdArrayIO.readBoolean2D();
+
+        System.out.println("\t█▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀█");
+        System.out.println("\t█░░╦─╦╔╗╦─╔╗╔╗╔╦╗╔╗░░█");
+        System.out.println("\t█░░║║║╠─║─║─║║║║║╠─░░█");
+        System.out.println("\t█░░╚╩╝╚╝╚╝╚╝╚╝╩─╩╚╝░░█");
+        System.out.println("\t█▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄█");
+        System.out.println("");
+        System.out.println("\t     TO THE " + colors.RED + "A STAR"+colors.RESET+"      ");
+        System.out.println(colors.CYAN + "\t P A T H   F I N D E R  "+colors.RESET);
+
+        System.out.println();
+        System.out.println("Please enter your preferred grid size");
+        N = in.nextInt();
 
         // The following will generate a NxN squared grid with relatively few obstacles in it
         // The lower the second parameter, the more obstacles (black cells) are generated
         boolean[][] randomlyGenMatrix = random(N,0.8);
 
         //printing the boolean array on the console
-        StdArrayIO.print(randomlyGenMatrix);
+        //StdArrayIO.print(randomlyGenMatrix);
 
         //drawing the matrix
         new Main().show(randomlyGenMatrix, true);
 
+        /*
         System.out.println();
         System.out.println("The system percolates: " + percolates(randomlyGenMatrix));
 
         System.out.println();
         System.out.println("The system percolates directly: " + percolatesDirect(randomlyGenMatrix));
         System.out.println();
+        */
 
+        System.out.println("\nThe start node (A) will be shown in "+colors.GREEN+"GREEN"+colors.RESET+
+                " and the end node (B) will be shown in "+colors.RED+"RED"+colors.RESET);
 
-        Scanner in = new Scanner(System.in);
-        System.out.println("Enter i for A (Row number) > ");
+        System.out.println("\nEnter i for A (Row number) > ");
         int Ai = in.nextInt();
 
         System.out.println("Enter j for A (Column number) > ");
@@ -243,9 +270,9 @@ public class Main {
 
         do {
             System.out.println("\nPlease select a preferred distance metric.\n");
-            System.out.println(colors.RED + "1. Manhattan Distance" + colors.RESET);
+            System.out.println(colors.YELLOW + "1. Manhattan Distance" + colors.RESET);
             System.out.println(colors.BLUE + "2. Euclidean Distance" + colors.RESET);
-            System.out.println(colors.GREEN + "3. Chebyshev Distance" + colors.RESET);
+            System.out.println(colors.PURPLE + "3. Chebyshev Distance" + colors.RESET);
             System.out.println("\n0. To Exit");
 
 
@@ -254,6 +281,9 @@ public class Main {
             option = in.nextInt();
             switch (option) {
                 case 1: {
+                    StdDraw.clear();
+                    new Main().show(randomlyGenMatrix, true);
+                    new Main().show(randomlyGenMatrix, true, Ai, Aj, Bi, Bj);
                     metricType = "Manhattan";
                     //starts the stopwatch to calculate the time spent to find the shortest path
                     Stopwatch timerFlow = new Stopwatch();
@@ -264,7 +294,7 @@ public class Main {
 
 
                     //draws the shortest path on the grid
-                    new Main().drawLine(N, finalPath, Color.RED);
+                    new Main().drawLine(N, finalPath, Color.YELLOW);
 
                     new Test(metricType).printH(nodes);
                     new Test(metricType).printG(nodes);
@@ -312,7 +342,7 @@ public class Main {
 
 
                     //draws the shortest path on the grid
-                    new Main().drawLine(N, finalPath, Color.GREEN);
+                    new Main().drawLine(N, finalPath, Color.MAGENTA);
 
                     new Test(metricType).printH(nodes);
                     new Test(metricType).printG(nodes);
@@ -352,7 +382,7 @@ public class Main {
             //StdDraw.line( aj , N-ai-1 , bj , N-bi-1 );
             StdDraw.line( node.getParent().getJ() ,N - node.getParent().getI() -1, node.getJ() ,N- node.getI() -1 );
             StdDraw.setPenColor(StdDraw.BLACK);
-            StdDraw.show();
+            StdDraw.show(150);
 
         }
 
