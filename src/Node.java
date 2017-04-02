@@ -31,13 +31,13 @@ public class Node {
     /**
      * The cost of getting from the previous node to current node.
      */
-    private int g;
+    private double g;
 
     /**
      * Heuristic that calculates the cost of the cheapest path from current node
      * to the goal node.
      */
-    private int h;
+    private double h;
 
     /**
      * cost for all unblocked nodes on our path will equal to one ( Spec instructs to assume it as one)
@@ -74,7 +74,7 @@ public class Node {
      * @param parent The previous node to this node
      * @return This node's G value
      */
-    public int calculateGValue(Node parent)
+    public double calculateGValue(Node parent)
     {
         return (parent.getG() + COST);
     }
@@ -93,7 +93,7 @@ public class Node {
                 break;
             }
             case "Euclidean": {
-                h = (int) (Math.sqrt( Math.pow((getI() - destination.getI()) , 2)
+                h =  (Math.sqrt( Math.pow((getI() - destination.getI()) , 2)
                         - Math.pow((getJ() - destination.getJ()) , 2)) * COST);
                 break;
             }
@@ -182,7 +182,7 @@ public class Node {
     /**
      * @return The F value. ( i.e G value + the H value )
      */
-    public int getF()
+    public double getF()
     {
         return g + h;
     }
@@ -190,7 +190,7 @@ public class Node {
     /**
      * @return The cost of getting from the parent node to this node.
      */
-    public int getG()
+    public double getG()
     {
         return g;
     }
@@ -199,7 +199,7 @@ public class Node {
      * @return A heuristic that estimates the cost of the cheapest path from
      *         this node to the goal node
      */
-    public int getH()
+    public double getH()
     {
         return h;
     }

@@ -21,8 +21,6 @@ public class Main {
     //The size of the matrix ( one side )
     //private static final int N = 10;
 
-    static Test test;
-    AStar aStar;
 
     // given an N-by-N matrix of open cells, return an N-by-N matrix
     // of cells reachable from the top
@@ -234,28 +232,23 @@ public class Main {
         //plots the two circles on the grid
         show(randomlyGenMatrix, true, Ai, Aj, Bi, Bj);
 
+        String metricType = "Chebyshev";
+
         //starts the stopwatch to calculate the time spent to find the shortest path
         Stopwatch timerFlow = new Stopwatch();
         //stores the list of nodes returned by the find path method
-        List<Node> finalPath = new AStar().findPath(Ai, Aj, Bi, Bj , nodes , N , "Manhattan");
+        List<Node> finalPath = new AStar(N, nodes , metricType).findPath(Ai, Aj, Bi, Bj);
         StdOut.println("\n Elapsed time = " + timerFlow.elapsedTime());
         System.out.println("\n Path followed - " + Arrays.toString(finalPath.toArray()));
 
 
         //draws the shortest path on the grid
-        drawLine( N , finalPath , Color.RED);
+        new Main().drawLine( N , finalPath , Color.RED);
 
-        test.printH(nodes);
-        test.printG(nodes);
-        test.printF(nodes);
+        new Test(metricType).printH(nodes);
+        new Test(metricType).printG(nodes);
+        new Test(metricType).printF(nodes);
 
-        List<Node> finalPath1 = new AStar().findPath(Ai, Aj, Bi, Bj , nodes , N , "Euclidean");
-        drawLine( N , finalPath , Color.GREEN);
-        System.out.println("\n Path followed - " + Arrays.toString(finalPath1.toArray()));
-
-        List<Node> finalPath2 = new AStar().findPath(Ai, Aj, Bi, Bj , nodes , N , "Chebyshev");
-        drawLine( N , finalPath , Color.BLUE);
-        System.out.println("\n Path followed - " + Arrays.toString(finalPath2.toArray()));
 
     }
 
@@ -264,7 +257,7 @@ public class Main {
      * @param N Size of the matrix
      * @param nodes List of nodes that are in the path
      */
-    public static void drawLine( int N , List<Node> nodes , Color color){
+    public void drawLine( int N , List<Node> nodes , Color color){
 
         StdDraw.setXscale(-1,N);
         StdDraw.setYscale(-1,N);

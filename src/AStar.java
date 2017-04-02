@@ -10,6 +10,17 @@ import java.util.List;
  */
 public class AStar {
 
+    private int N; //size of the matrix
+    private String metric; //stores the distance measurement type
+    private Node[][] nodes; //2D array to store the nodes on the grid
+
+
+    public AStar(int N , Node[][] nodes , String metric){
+        this.N = N;
+        this.nodes = nodes;
+        this.metric = metric;
+    }
+
     /**
      * This method calculates the shortest path using the starting node and the ending node
      *
@@ -19,7 +30,7 @@ public class AStar {
      * @param goalJ Column number of the goal node
      * @return A list of nodes to follow which gives the shortest distance to the goal
      */
-    public final List<Node> findPath(int startI, int startJ, int goalI, int goalJ , Node[][] nodes , int N , String metric)
+    public final List<Node> findPath(int startI, int startJ, int goalI, int goalJ )
     {
         // If our start position is the same as our goal position returns an empty list
         if (startI == goalI && startJ == goalJ)
@@ -54,7 +65,7 @@ public class AStar {
                 return calcPath(nodes[startI][startJ], current);
             }
 
-            List<Node> adjacentNodes = getAdjacent(current, closedList,N,nodes);
+            List<Node> adjacentNodes = getAdjacent(current, closedList);
             for (Node adjacent : adjacentNodes)
             {
                 // If node is not in the open list ...
@@ -142,38 +153,18 @@ public class AStar {
      * @return A LinkedList with nodes adjacent to the given node if those
      *         exist, are walkable and are not already in the closed list.
      */
-    private List<Node> getAdjacent(Node node, List<Node> closedList , int N , Node [][] nodes)
+    private List<Node> getAdjacent(Node node, List<Node> closedList )
     {
         List<Node> adjacentNodes = new LinkedList<Node>();
-        int x = node.getI();
-        int y = node.getJ();
+        int i = node.getI();
+        int j = node.getJ();
 
         Node adjacent;
 
-        // Check left node
-        if (x > 0)
-        {
-            adjacent = getNode(x - 1, y , N , nodes);
-            if (adjacent != null && adjacent.isNotBlocked() && !closedList.contains(adjacent))
-            {
-                adjacentNodes.add(adjacent);
-            }
-        }
-
-        // Check right node
-        if (x < N)
-        {
-            adjacent = getNode(x + 1, y , N, nodes);
-            if (adjacent != null && adjacent.isNotBlocked() && !closedList.contains(adjacent))
-            {
-                adjacentNodes.add(adjacent);
-            }
-        }
-
         // Check top node
-        if (y > 0)
+        if (i > 0)
         {
-            adjacent = getNode(x, y - 1 , N , nodes);
+            adjacent = getNode(i - 1, j );
             if (adjacent != null && adjacent.isNotBlocked() && !closedList.contains(adjacent))
             {
                 adjacentNodes.add(adjacent);
@@ -181,9 +172,29 @@ public class AStar {
         }
 
         // Check bottom node
-        if (y < N)
+        if (i < N)
         {
-            adjacent = getNode(x, y + 1 , N, nodes);
+            adjacent = getNode(i + 1, j);
+            if (adjacent != null && adjacent.isNotBlocked() && !closedList.contains(adjacent))
+            {
+                adjacentNodes.add(adjacent);
+            }
+        }
+
+        // Check left node
+        if (j > 0)
+        {
+            adjacent = getNode(i, j - 1);
+            if (adjacent != null && adjacent.isNotBlocked() && !closedList.contains(adjacent))
+            {
+                adjacentNodes.add(adjacent);
+            }
+        }
+
+        // Check right node
+        if (j < N)
+        {
+            adjacent = getNode(i, j + 1);
             if (adjacent != null && adjacent.isNotBlocked() && !closedList.contains(adjacent))
             {
                 adjacentNodes.add(adjacent);
@@ -203,7 +214,7 @@ public class AStar {
      * @return The desired node if the parameters are valid, null otherwise.
      */
 
-    public Node getNode(int x, int y , int N , Node[][] nodes)
+    public Node getNode(int x, int y)
     {
         if (x >= 0 && x < N && y >= 0 && y < N)
         {
