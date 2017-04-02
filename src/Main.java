@@ -5,7 +5,9 @@ import java.util.List;
 import java.util.Scanner;
 
 /**
- * Copyright (c) 2017. Aparecium Labs.  http://www.apareciumlabs.com
+ * Student name - Brion Mario Piumal Silva
+ * IIT No - 2015283
+ * UOW ID - w1608482
  *
  * @author brionsilva
  * @version 1.0
@@ -224,18 +226,29 @@ public class Main {
         System.out.println("\nThe start node (A) will be shown in "+colors.GREEN+"GREEN"+colors.RESET+
                 " and the end node (B) will be shown in "+colors.RED+"RED"+colors.RESET);
 
-        System.out.println("\nEnter i for A (Row number) > ");
-        int Ai = in.nextInt();
+        int Ai = 0,Aj = 0,Bi = 0,Bj = 0;
+        do {
+            try {
+                System.out.println("\nEnter i for A (Row number) > ");
+                Ai = in.nextInt();
 
-        System.out.println("Enter j for A (Column number) > ");
-        int Aj = in.nextInt();
+                System.out.println("Enter j for A (Column number) > ");
+                Aj = in.nextInt();
 
-        System.out.println("Enter i for B (Row number) > ");
-        int Bi = in.nextInt();
+                System.out.println("Enter i for B (Row number) > ");
+                Bi = in.nextInt();
 
-        System.out.println("Enter j for B (Column number) > ");
-        int Bj = in.nextInt();
+                System.out.println("Enter j for B (Column number) > ");
+                Bj = in.nextInt();
 
+                break;
+            }catch (Exception e){
+                System.out.println(colors.RED + "Oops! Something went wrong. Please restart the application." + colors.RESET);
+            }
+            System.out.println(colors.RED + "Sorry! You cant have the starting or the end node inside a blocked cell.\n" +
+                    "Please select different co-ordinates" + colors.RESET);
+
+        }while (!nodes[Ai][Aj].isNotBlocked() || !nodes[Bi][Bj].isNotBlocked());
 
         //System.out.println("Coordinates for A: [" + Ai + "," + Aj + "]");
         //System.out.println("Coordinates for B: [" + Bi + "," + Bj + "]");
@@ -289,16 +302,16 @@ public class Main {
                     Stopwatch timerFlow = new Stopwatch();
                     //stores the list of nodes returned by the find path method
                     List<Node> finalPath = new AStar(N, nodes, metricType).findPath(Ai, Aj, Bi, Bj);
-                    StdOut.println("\n Elapsed time = " + timerFlow.elapsedTime());
+                    StdOut.println("\n Algorithm running time - " + timerFlow.elapsedTime());
                     System.out.println("\n Path followed - " + Arrays.toString(finalPath.toArray()));
 
 
                     //draws the shortest path on the grid
                     new Main().drawLine(N, finalPath, Color.YELLOW);
 
-                    new Test(metricType).printH(nodes);
+                    /*new Test(metricType).printH(nodes);
                     new Test(metricType).printG(nodes);
-                    new Test(metricType).printF(nodes);
+                    new Test(metricType).printF(nodes);*/
 
                     break;
                 }
@@ -310,19 +323,19 @@ public class Main {
 
                     metricType = "Euclidean";
                     //starts the stopwatch to calculate the time spent to find the shortest path
-                    Stopwatch timerFlow = new Stopwatch();
+                    Stopwatch timerFlow1 = new Stopwatch();
                     //stores the list of nodes returned by the find path method
                     List<Node> finalPath = new AStar(N, nodes, metricType).findPath(Ai, Aj, Bi, Bj);
-                    StdOut.println("\n Elapsed time = " + timerFlow.elapsedTime());
+                    StdOut.println("\n Algorithm running time - " + timerFlow1.elapsedTime());
                     System.out.println("\n Path followed - " + Arrays.toString(finalPath.toArray()));
 
 
                     //draws the shortest path on the grid
                     new Main().drawLine(N, finalPath, Color.BLUE);
 
-                    new Test(metricType).printH(nodes);
+                    /*new Test(metricType).printH(nodes);
                     new Test(metricType).printG(nodes);
-                    new Test(metricType).printF(nodes);
+                    new Test(metricType).printF(nodes);*/
 
                     break;
                 }
@@ -334,19 +347,19 @@ public class Main {
 
                     metricType = "Chebyshev";
                     //starts the stopwatch to calculate the time spent to find the shortest path
-                    Stopwatch timerFlow = new Stopwatch();
+                    Stopwatch timerFlow2 = new Stopwatch();
                     //stores the list of nodes returned by the find path method
                     List<Node> finalPath = new AStar(N, nodes, metricType).findPath(Ai, Aj, Bi, Bj);
-                    StdOut.println("\n Elapsed time = " + timerFlow.elapsedTime());
+                    StdOut.println("\n Algorithm running time - " + timerFlow2.elapsedTime());
                     System.out.println("\n Path followed - " + Arrays.toString(finalPath.toArray()));
 
 
                     //draws the shortest path on the grid
                     new Main().drawLine(N, finalPath, Color.MAGENTA);
 
-                    new Test(metricType).printH(nodes);
+                    /*new Test(metricType).printH(nodes);
                     new Test(metricType).printG(nodes);
-                    new Test(metricType).printF(nodes);
+                    new Test(metricType).printF(nodes);*/
 
                     break;
                 }

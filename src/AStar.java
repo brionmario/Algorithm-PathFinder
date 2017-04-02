@@ -2,7 +2,9 @@ import java.util.LinkedList;
 import java.util.List;
 
 /**
- * Copyright (c) 2017. Aparecium Labs.  http://www.apareciumlabs.com
+ * Student name - Brion Mario Piumal Silva
+ * IIT No - 2015283
+ * UOW ID - w1608482
  *
  * @author brionsilva
  * @version 1.0
@@ -174,13 +176,13 @@ public class AStar {
         int j = node.getJ();
 
         Node adjacent;
-
         // Check top nodes
         if (i > 0)
         {
             //Top node
             adjacent = getNode(i - 1, j );
-            if (adjacent != null && adjacent.isNotBlocked() && !closedList.contains(adjacent))
+            if (adjacent != null && adjacent.isNotBlocked() && !closedList.contains(adjacent)
+                    /*&& adjacent.getF() >= node.getF() + hvCost*/)
             {
                 adjacent.setG(node , hvCost);
                 adjacentNodes.add(adjacent);
@@ -189,7 +191,8 @@ public class AStar {
             // Top Left
             if (j - 1 >= 0) {
                 adjacent = getNode(i - 1, j - 1 );
-                if (adjacent != null && adjacent.isNotBlocked() && !closedList.contains(adjacent))
+                if (adjacent != null && adjacent.isNotBlocked() && !closedList.contains(adjacent)
+                        /*&& adjacent.getF() >= node.getF() + diagonalCost*/)
                 {
                     adjacent.setG(node , diagonalCost);
                     adjacentNodes.add(adjacent);
@@ -199,7 +202,8 @@ public class AStar {
             // Top Right
             if (j + 1 < N) {
                 adjacent = getNode(i - 1, j + 1 );
-                if (adjacent != null && adjacent.isNotBlocked() && !closedList.contains(adjacent))
+                if (adjacent != null && adjacent.isNotBlocked() && !closedList.contains(adjacent)
+                        /*&& adjacent.getF() >= node.getF() + diagonalCost*/)
                 {
                     adjacent.setG(node , diagonalCost);
                     adjacentNodes.add(adjacent);
@@ -212,7 +216,8 @@ public class AStar {
         {
             //bottom node
             adjacent = getNode(i + 1, j);
-            if (adjacent != null && adjacent.isNotBlocked() && !closedList.contains(adjacent))
+            if (adjacent != null && adjacent.isNotBlocked() && !closedList.contains(adjacent)
+                   /* && adjacent.getF() >= node.getF() + hvCost*/)
             {
                 adjacent.setG(node , hvCost);
                 adjacentNodes.add(adjacent);
@@ -221,7 +226,8 @@ public class AStar {
             //bottom left node
             if (j - 1 >= 0) {
                 adjacent = getNode(i + 1, j-1);
-                if (adjacent != null && adjacent.isNotBlocked() && !closedList.contains(adjacent))
+                if (adjacent != null && adjacent.isNotBlocked() && !closedList.contains(adjacent)
+                        /*&& adjacent.getF() >= node.getF() + diagonalCost*/)
                 {
                     adjacent.setG(node , diagonalCost);
                     adjacentNodes.add(adjacent);
@@ -231,7 +237,8 @@ public class AStar {
             //bottom right node
             if (j + 1 > N) {
                 adjacent = getNode(i + 1, j+1);
-                if (adjacent != null && adjacent.isNotBlocked() && !closedList.contains(adjacent))
+                if (adjacent != null && adjacent.isNotBlocked() && !closedList.contains(adjacent)
+                        /*&& adjacent.getF() >= node.getF() + diagonalCost*/)
                 {
                     adjacent.setG(node , diagonalCost);
                     adjacentNodes.add(adjacent);
@@ -245,7 +252,8 @@ public class AStar {
         {
 
             adjacent = getNode(i, j - 1);
-            if (adjacent != null && adjacent.isNotBlocked() && !closedList.contains(adjacent))
+            if (adjacent != null && adjacent.isNotBlocked() && !closedList.contains(adjacent)
+                    /*&& adjacent.getF() >= node.getF() + hvCost*/)
             {
                 adjacent.setG(node , hvCost);
                 adjacentNodes.add(adjacent);
@@ -258,7 +266,8 @@ public class AStar {
         if (j < N)
         {
             adjacent = getNode(i, j + 1);
-            if (adjacent != null && adjacent.isNotBlocked() && !closedList.contains(adjacent))
+            if (adjacent != null && adjacent.isNotBlocked() && !closedList.contains(adjacent)
+                   /* && adjacent.getF() >= node.getF() + hvCost*/)
             {
                 adjacent.setG(node , hvCost);
                 adjacentNodes.add(adjacent);
