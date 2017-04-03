@@ -1,8 +1,6 @@
 import java.awt.*;
-import java.util.Arrays;
-import java.util.LinkedList;
+import java.util.*;
 import java.util.List;
-import java.util.Scanner;
 
 /**
  * Student name - Brion Mario Piumal Silva
@@ -188,7 +186,7 @@ public class Main {
         Scanner in = new Scanner(System.in);
 
         //integer to store the matrix size
-        int N;
+        int N = 0;
         // boolean[][] open = StdArrayIO.readBoolean2D();
 
         System.out.println("\t█▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀█");
@@ -202,7 +200,23 @@ public class Main {
 
         System.out.println();
         System.out.println("Please enter your preferred grid size");
-        N = in.nextInt();
+
+        try {
+
+            do {
+
+                N = in.nextInt();
+
+            }while (N < 1);
+
+        } catch (Exception e) {
+
+            System.out.println(colors.RED + "\nIncorrect grid size. Please re-enter.\n\n"+colors.RESET);
+            new Main().main(args);
+        }
+
+
+
 
         // The following will generate a NxN squared grid with relatively few obstacles in it
         // The lower the second parameter, the more obstacles (black cells) are generated
@@ -226,9 +240,11 @@ public class Main {
         System.out.println("\nThe start node (A) will be shown in "+colors.GREEN+"GREEN"+colors.RESET+
                 " and the end node (B) will be shown in "+colors.RED+"RED"+colors.RESET);
 
-        int Ai = 0,Aj = 0,Bi = 0,Bj = 0;
-        do {
-            try {
+        int Ai = 0 , Aj = 0, Bi =0, Bj = 0  ;
+
+        try{
+            do {
+
                 System.out.println("\nEnter i for A (Row number) > ");
                 Ai = in.nextInt();
 
@@ -241,15 +257,23 @@ public class Main {
                 System.out.println("Enter j for B (Column number) > ");
                 Bj = in.nextInt();
 
-                break;
-            }catch (Exception e){
-                System.out.println(colors.RED + "Oops! Something went wrong. Please restart the application." + colors.RESET);
-            }
-            System.out.println(colors.RED + "Sorry! You cant have the starting or the end node inside a blocked cell.\n" +
-                    "Please select different co-ordinates" + colors.RESET);
 
-        }while (!nodes[Ai][Aj].isNotBlocked() || !nodes[Bi][Bj].isNotBlocked());
 
+                // System.out.println(colors.RED + "Sorry! You cant have the starting or the end node inside a blocked cell.\n" +
+                //       "Please select different co-ordinates" + colors.RESET);
+
+            }while (!nodes[Ai][Aj].isNotBlocked() || !nodes[Bi][Bj].isNotBlocked());
+
+        }catch(java.lang.ArrayIndexOutOfBoundsException e1) {
+
+            System.out.println(colors.RED + "\nWrong co-ordinates. Please enter again !\n\n" + colors.RESET);
+            new Main().main(args);
+        }catch(InputMismatchException e2) {
+
+            System.out.println(colors.RED + "\nInvalid co-ordinates. Please enter again !\n\n" + colors.RESET);
+            new Main().main(args);
+
+        }
         //System.out.println("Coordinates for A: [" + Ai + "," + Aj + "]");
         //System.out.println("Coordinates for B: [" + Bi + "," + Bj + "]");
 
@@ -286,7 +310,7 @@ public class Main {
             System.out.println(colors.YELLOW + "1. Manhattan Distance" + colors.RESET);
             System.out.println(colors.BLUE + "2. Euclidean Distance" + colors.RESET);
             System.out.println(colors.PURPLE + "3. Chebyshev Distance" + colors.RESET);
-            System.out.println("\n0. To Exit");
+            System.out.println(colors.RED+"0. To Exit"+colors.RESET);
 
 
             String metricType;
@@ -302,8 +326,16 @@ public class Main {
                     Stopwatch timerFlow = new Stopwatch();
                     //stores the list of nodes returned by the find path method
                     List<Node> finalPath = new AStar(N, nodes, metricType).findPath(Ai, Aj, Bi, Bj);
-                    StdOut.println("\n Algorithm running time - " + timerFlow.elapsedTime());
-                    System.out.println("\n Path followed - " + Arrays.toString(finalPath.toArray()));
+
+                    System.out.println("\n**************************************************");
+                    System.out.println("*                                                *");
+                    System.out.println("*         YOU SELECTED"+colors.YELLOW + " MANHATTAN "+colors.RESET+"DISTANCE        *");
+                    System.out.println("*                                                *");
+                    System.out.println("**************************************************");
+
+                    StdOut.println("\nAlgorithm running time - " + timerFlow.elapsedTime());
+                    System.out.println("\nTotal cost of the shortest path - " + new Main().calcTotalCost(finalPath));
+                    System.out.println("\nPath followed - " + Arrays.toString(finalPath.toArray()));
 
 
                     //draws the shortest path on the grid
@@ -326,8 +358,16 @@ public class Main {
                     Stopwatch timerFlow1 = new Stopwatch();
                     //stores the list of nodes returned by the find path method
                     List<Node> finalPath = new AStar(N, nodes, metricType).findPath(Ai, Aj, Bi, Bj);
-                    StdOut.println("\n Algorithm running time - " + timerFlow1.elapsedTime());
-                    System.out.println("\n Path followed - " + Arrays.toString(finalPath.toArray()));
+
+                    System.out.println("\n**************************************************");
+                    System.out.println("*                                                *");
+                    System.out.println("*         YOU SELECTED"+colors.BLUE + " EUCLIDEAN"+colors.RESET+" DISTANCE        *");
+                    System.out.println("*                                                *");
+                    System.out.println("**************************************************");
+
+                    StdOut.println("\nAlgorithm running time - " + timerFlow1.elapsedTime());
+                    System.out.println("\nTotal cost of the shortest path - " + new Main().calcTotalCost(finalPath));
+                    System.out.println("\nPath followed - " + Arrays.toString(finalPath.toArray()));
 
 
                     //draws the shortest path on the grid
@@ -350,8 +390,16 @@ public class Main {
                     Stopwatch timerFlow2 = new Stopwatch();
                     //stores the list of nodes returned by the find path method
                     List<Node> finalPath = new AStar(N, nodes, metricType).findPath(Ai, Aj, Bi, Bj);
-                    StdOut.println("\n Algorithm running time - " + timerFlow2.elapsedTime());
-                    System.out.println("\n Path followed - " + Arrays.toString(finalPath.toArray()));
+
+                    System.out.println("\n**************************************************");
+                    System.out.println("*                                                *");
+                    System.out.println("*         YOU SELECTED"+colors.PURPLE + " CHEBYSHEV"+colors.RESET+" DISTANCE        *");
+                    System.out.println("*                                                *");
+                    System.out.println("**************************************************");
+
+                    StdOut.println("\nAlgorithm running time - " + timerFlow2.elapsedTime());
+                    System.out.println("\nTotal cost of the shortest path - " + new Main().calcTotalCost(finalPath));
+                    System.out.println("\nPath followed - " + Arrays.toString(finalPath.toArray()));
 
 
                     //draws the shortest path on the grid
@@ -396,9 +444,21 @@ public class Main {
             StdDraw.line( node.getParent().getJ() ,N - node.getParent().getI() -1, node.getJ() ,N- node.getI() -1 );
             StdDraw.setPenColor(StdDraw.BLACK);
             StdDraw.show(150);
+            StdDraw.setPenRadius();
 
         }
 
+    }
+
+    public double calcTotalCost(List <Node> path){
+
+        double totalCost = 0.0;
+
+        for (Node node : path){
+
+            totalCost = totalCost + node.getG();
+        }
+        return totalCost;
     }
 
 }

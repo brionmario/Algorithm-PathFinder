@@ -33,7 +33,7 @@ public class Node {
     /**
      * The cost of getting from the previous node to current node.
      */
-    private double g;
+    public double g;
 
     /**
      * Heuristic that calculates the cost of the cheapest path from current node
@@ -67,9 +67,8 @@ public class Node {
      */
     public void setG(Node parent , double MOVEMENTCOST)
     {
-        double gValue = (parent.getG() + MOVEMENTCOST);
+        g = (parent.getG() + MOVEMENTCOST);
         setCOST(MOVEMENTCOST);
-        g = Math.round(gValue * 10) / 10.0;
     }
 
     /**
@@ -97,20 +96,20 @@ public class Node {
 
         switch (metric) {
             case "Manhattan": {
-                hValue = (Math.abs(getI() - destination.getI()) + Math.abs(getJ() - destination.getJ())) ;
-                h = Math.round(hValue * 10) / 10.0;
+                h = (Math.abs(getI() - destination.getI()) + Math.abs(getJ() - destination.getJ())) ;
+                //h = Math.round(hValue * 10) / 10.0;
                 break;
             }
             case "Euclidean": {
-                hValue =  (Math.sqrt( Math.pow((getI() - destination.getI()) , 2)
-                        - Math.pow((getJ() - destination.getJ()) , 2)) );
-                h = Math.round(hValue * 10) / 10.0;
+                double hSqrd = Math.pow((getI() - destination.getI()) , 2) + Math.pow((getJ() - destination.getJ()) , 2);
+                h = Math.sqrt(hSqrd);
+                //h = Math.round(hValue * 10) / 10.0;
                 break;
             }
             case "Chebyshev": {
-                hValue = Math.max ( Math.abs(getI() - destination.getI()) ,
+                h = Math.max ( Math.abs(getI() - destination.getI()) ,
                         Math.abs(getJ() - destination.getJ()));
-                h = Math.round(hValue * 10) / 10.0;
+                //h = Math.round(hValue * 10) / 10.0;
                 break;
             }
         }
@@ -243,10 +242,11 @@ public class Node {
         return "Node (" +
                 "i=" + i +
                 ", j=" + j +
-                //", notBlocked=" + notBlocked +
-               //", g=" + g +
-               // ", h=" + h +
-                //", parent=" + parent +
+                ", g=" + g +
+              /*  ", notBlocked=" + notBlocked +
+
+                ", h=" + h +
+                ", parent=" + parent +*/
                 ')';
     }
 

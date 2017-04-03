@@ -20,6 +20,7 @@ public class AStar {
     private double diagonalCost;
 
 
+
     public AStar(int N , Node[][] nodes , String metric){
         this.N = N;
         this.nodes = nodes;
@@ -63,12 +64,14 @@ public class AStar {
         // Add starting node to open list.
         openList.add(nodes[startI][startJ]);
 
+        Node current = null;
+
         // This loop will be broken as soon as the current node position is
         // equal to the goal position.
         while (true)
         {
             // Gets node with the lowest F score from open list.
-            Node current = lowestFInList(openList);
+            current = lowestFInList(openList);
             // Remove current node from open list.
             openList.remove(current);
             // Add current node to closed list.
@@ -115,6 +118,7 @@ public class AStar {
             }
             // But if it does, continue the loop.
         }
+
     }
 
     /**
@@ -180,33 +184,34 @@ public class AStar {
         if (i > 0)
         {
             //Top node
-            adjacent = getNode(i - 1, j );
+            adjacent = getNode (i - 1, j );
             if (adjacent != null && adjacent.isNotBlocked() && !closedList.contains(adjacent)
-                    /*&& adjacent.getF() >= node.getF() + hvCost*/)
+                    /*&& adjacent.getG() >= node.getG() + hvCost*/)
             {
                 adjacent.setG(node , hvCost);
                 adjacentNodes.add(adjacent);
             }
 
-            // Top Left
-            if (j - 1 >= 0) {
-                adjacent = getNode(i - 1, j - 1 );
-                if (adjacent != null && adjacent.isNotBlocked() && !closedList.contains(adjacent)
-                        /*&& adjacent.getF() >= node.getF() + diagonalCost*/)
-                {
-                    adjacent.setG(node , diagonalCost);
-                    adjacentNodes.add(adjacent);
-                }
-            }
 
-            // Top Right
-            if (j + 1 < N) {
-                adjacent = getNode(i - 1, j + 1 );
-                if (adjacent != null && adjacent.isNotBlocked() && !closedList.contains(adjacent)
-                        /*&& adjacent.getF() >= node.getF() + diagonalCost*/)
-                {
-                    adjacent.setG(node , diagonalCost);
-                    adjacentNodes.add(adjacent);
+            if(metric != "Manhattan") {
+                // Top Left
+                if (j - 1 >= 0) {
+                    adjacent = getNode(i - 1, j - 1);
+                    if (adjacent != null && adjacent.isNotBlocked() && !closedList.contains(adjacent)
+                        /*&& adjacent.getG() >= node.getG() + diagonalCost*/) {
+                        adjacent.setG(node, diagonalCost);
+                        adjacentNodes.add(adjacent);
+                    }
+                }
+
+                // Top Right
+                if (j + 1 < N) {
+                    adjacent = getNode(i - 1, j + 1);
+                    if (adjacent != null && adjacent.isNotBlocked() && !closedList.contains(adjacent)
+                        /*&& adjacent.getG() >= node.getG() + diagonalCost*/) {
+                        adjacent.setG(node, diagonalCost);
+                        adjacentNodes.add(adjacent);
+                    }
                 }
             }
         }
@@ -217,31 +222,31 @@ public class AStar {
             //bottom node
             adjacent = getNode(i + 1, j);
             if (adjacent != null && adjacent.isNotBlocked() && !closedList.contains(adjacent)
-                   /* && adjacent.getF() >= node.getF() + hvCost*/)
+                    /*&& adjacent.getG() >= node.getG() + hvCost*/)
             {
                 adjacent.setG(node , hvCost);
                 adjacentNodes.add(adjacent);
             }
 
-            //bottom left node
-            if (j - 1 >= 0) {
-                adjacent = getNode(i + 1, j-1);
-                if (adjacent != null && adjacent.isNotBlocked() && !closedList.contains(adjacent)
-                        /*&& adjacent.getF() >= node.getF() + diagonalCost*/)
-                {
-                    adjacent.setG(node , diagonalCost);
-                    adjacentNodes.add(adjacent);
+            if(metric != "Manhattan") {
+                //bottom left node
+                if (j - 1 >= 0) {
+                    adjacent = getNode(i + 1, j - 1);
+                    if (adjacent != null && adjacent.isNotBlocked() && !closedList.contains(adjacent)
+                        /*&& adjacent.getG() >= node.getG() + diagonalCost*/) {
+                        adjacent.setG(node, diagonalCost);
+                        adjacentNodes.add(adjacent);
+                    }
                 }
-            }
 
-            //bottom right node
-            if (j + 1 > N) {
-                adjacent = getNode(i + 1, j+1);
-                if (adjacent != null && adjacent.isNotBlocked() && !closedList.contains(adjacent)
-                        /*&& adjacent.getF() >= node.getF() + diagonalCost*/)
-                {
-                    adjacent.setG(node , diagonalCost);
-                    adjacentNodes.add(adjacent);
+                //bottom right node
+                if (j + 1 > N) {
+                    adjacent = getNode(i + 1, j + 1);
+                    if (adjacent != null && adjacent.isNotBlocked() && !closedList.contains(adjacent)
+                        /*&& adjacent.getG() >= node.getG() + diagonalCost*/) {
+                        adjacent.setG(node, diagonalCost);
+                        adjacentNodes.add(adjacent);
+                    }
                 }
             }
 
@@ -253,7 +258,7 @@ public class AStar {
 
             adjacent = getNode(i, j - 1);
             if (adjacent != null && adjacent.isNotBlocked() && !closedList.contains(adjacent)
-                    /*&& adjacent.getF() >= node.getF() + hvCost*/)
+                    /*&& adjacent.getG() >= node.getG() + hvCost*/)
             {
                 adjacent.setG(node , hvCost);
                 adjacentNodes.add(adjacent);
@@ -267,7 +272,7 @@ public class AStar {
         {
             adjacent = getNode(i, j + 1);
             if (adjacent != null && adjacent.isNotBlocked() && !closedList.contains(adjacent)
-                   /* && adjacent.getF() >= node.getF() + hvCost*/)
+                   /*&& adjacent.getG() >= node.getG() + hvCost*/)
             {
                 adjacent.setG(node , hvCost);
                 adjacentNodes.add(adjacent);
@@ -277,21 +282,19 @@ public class AStar {
     }
 
     /**
-     * If the X and Y parameters are within the map boundaries, return the node
+     * If the i and j parameters are within the map boundaries, return the node
      * in the specific coordinates, null otherwise.
      *
-     * @param x
-     *            Desired node's X coordinate.
-     * @param y
-     *            Desired node's Y coordinate.
+     * @param i Desired node's row number
+     * @param j Desired node's column number
      * @return The desired node if the parameters are valid, null otherwise.
      */
 
-    public Node getNode(int x, int y)
+    public Node getNode(int i, int j)
     {
-        if (x >= 0 && x < N && y >= 0 && y < N)
+        if (i >= 0 && i < N && j >= 0 && j < N)
         {
-            return nodes[x][y];
+            return nodes[i][j];
         }
         else
         {
