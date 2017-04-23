@@ -2,6 +2,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 /**
+ *
  * Student name - Brion Mario Piumal Silva
  * IIT No - 2015283
  * UOW ID - w1608482
@@ -9,6 +10,7 @@ import java.util.List;
  * @author brionsilva
  * @version 1.0
  * @since 30/03/2017
+ *
  */
 public class AStar {
 
@@ -61,10 +63,10 @@ public class AStar {
         // The set of currently discovered nodes still to be visited.
         List<Node> closedList = new LinkedList<Node>();
 
-        // Add starting node to open list.
+        Node current = null;
+
         openList.add(nodes[startI][startJ]);
 
-        Node current = null;
 
         // This loop will be broken as soon as the current node position is
         // equal to the goal position.
@@ -165,6 +167,7 @@ public class AStar {
         return cheapest;
     }
 
+
     /**
      * @param node
      *            The node to be checked for adjacent nodes.
@@ -193,7 +196,7 @@ public class AStar {
             }
 
 
-            if(metric != "Manhattan") {
+            if(!metric.equals("Manhattan")) {
                 // Top Left
                 if (j - 1 >= 0) {
                     adjacent = getNode(i - 1, j - 1);
@@ -228,7 +231,7 @@ public class AStar {
                 adjacentNodes.add(adjacent);
             }
 
-            if(metric != "Manhattan") {
+            if(!metric.equals("Manhattan")) {
                 //bottom left node
                 if (j - 1 >= 0) {
                     adjacent = getNode(i + 1, j - 1);

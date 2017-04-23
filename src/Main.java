@@ -3,6 +3,7 @@ import java.util.*;
 import java.util.List;
 
 /**
+ *
  * Student name - Brion Mario Piumal Silva
  * IIT No - 2015283
  * UOW ID - w1608482
@@ -10,6 +11,7 @@ import java.util.List;
  * @author brionsilva
  * @version 1.0
  * @since 27/03/2017
+ *
  */
 
 public class Main {
@@ -187,6 +189,8 @@ public class Main {
 
         //integer to store the matrix size
         int N = 0;
+        //double to store the obstacle ratio
+        double ob = 0;
         // boolean[][] open = StdArrayIO.readBoolean2D();
 
         System.out.println("\t█▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀█");
@@ -198,6 +202,7 @@ public class Main {
         System.out.println("\t     TO THE " + colors.RED + "A STAR"+colors.RESET+"      ");
         System.out.println(colors.CYAN + "\t P A T H   F I N D E R  "+colors.RESET);
 
+        //getting the grid size from the user
         System.out.println();
         System.out.println("Please enter your preferred grid size");
 
@@ -215,12 +220,30 @@ public class Main {
             new Main().main(args);
         }
 
+        //getting the obstacle ratio from the user
+        System.out.println();
+        System.out.println("Please enter your preferred obstacle ratio");
+
+        try {
+
+            do {
+
+                ob = in.nextDouble();
+
+            }while (ob <= 0.0);
+
+        } catch (Exception e) {
+
+            System.out.println(colors.RED + "\nIncorrect ratio. Please re-enter.\n\n"+colors.RESET);
+            new Main().main(args);
+        }
+
 
 
 
         // The following will generate a NxN squared grid with relatively few obstacles in it
         // The lower the second parameter, the more obstacles (black cells) are generated
-        boolean[][] randomlyGenMatrix = random(N,0.8);
+        boolean[][] randomlyGenMatrix = random(N,ob);
 
         //printing the boolean array on the console
         //StdArrayIO.print(randomlyGenMatrix);
@@ -304,6 +327,7 @@ public class Main {
         new Main().show(randomlyGenMatrix, true, Ai, Aj, Bi, Bj);
 
         int option;
+        Stopwatch timerFlow = null;
 
         do {
             System.out.println("\nPlease select a preferred distance metric.\n");
@@ -318,12 +342,15 @@ public class Main {
             option = in.nextInt();
             switch (option) {
                 case 1: {
+                    //starts the stopwatch to calculate the time spent to find the shortest path
+                    timerFlow = new Stopwatch();
+
                     StdDraw.clear();
                     new Main().show(randomlyGenMatrix, true);
                     new Main().show(randomlyGenMatrix, true, Ai, Aj, Bi, Bj);
+
                     metricType = "Manhattan";
-                    //starts the stopwatch to calculate the time spent to find the shortest path
-                    Stopwatch timerFlow = new Stopwatch();
+
                     //stores the list of nodes returned by the find path method
                     List<Node> finalPath = new AStar(N, nodes, metricType).findPath(Ai, Aj, Bi, Bj);
 
@@ -333,9 +360,14 @@ public class Main {
                     System.out.println("*                                                *");
                     System.out.println("**************************************************");
 
+                    if(finalPath.size()>0) {
+                        System.out.println("\nA Path exists!");
+                        System.out.println("\nTotal cost of the shortest path - " + new Main().calcTotalCost(finalPath));
+                        System.out.println("\nPath followed - " + Arrays.toString(finalPath.toArray()));
+                    }else {
+                        System.out.println("\nSorry! A Path doesn't exist!");
+                    }
                     StdOut.println("\nAlgorithm running time - " + timerFlow.elapsedTime());
-                    System.out.println("\nTotal cost of the shortest path - " + new Main().calcTotalCost(finalPath));
-                    System.out.println("\nPath followed - " + Arrays.toString(finalPath.toArray()));
 
 
                     //draws the shortest path on the grid
@@ -349,13 +381,15 @@ public class Main {
                 }
 
                 case 2: {
+                    //starts the stopwatch to calculate the time spent to find the shortest path
+                    timerFlow = new Stopwatch();
+
                     StdDraw.clear();
                     new Main().show(randomlyGenMatrix, true);
                     new Main().show(randomlyGenMatrix, true, Ai, Aj, Bi, Bj);
 
                     metricType = "Euclidean";
-                    //starts the stopwatch to calculate the time spent to find the shortest path
-                    Stopwatch timerFlow1 = new Stopwatch();
+
                     //stores the list of nodes returned by the find path method
                     List<Node> finalPath = new AStar(N, nodes, metricType).findPath(Ai, Aj, Bi, Bj);
 
@@ -365,10 +399,14 @@ public class Main {
                     System.out.println("*                                                *");
                     System.out.println("**************************************************");
 
-                    StdOut.println("\nAlgorithm running time - " + timerFlow1.elapsedTime());
-                    System.out.println("\nTotal cost of the shortest path - " + new Main().calcTotalCost(finalPath));
-                    System.out.println("\nPath followed - " + Arrays.toString(finalPath.toArray()));
-
+                    if(finalPath.size()>0) {
+                        System.out.println("\nA Path exists! ");
+                        System.out.println("\nTotal cost of the shortest path - " + new Main().calcTotalCost(finalPath));
+                        System.out.println("\nPath followed - " + Arrays.toString(finalPath.toArray()));
+                    }else{
+                        System.out.println("\nSorry! A Path doesn't exist!");
+                    }
+                    StdOut.println("\nAlgorithm running time - " + timerFlow.elapsedTime());
 
                     //draws the shortest path on the grid
                     new Main().drawLine(N, finalPath, Color.BLUE);
@@ -381,13 +419,15 @@ public class Main {
                 }
 
                 case 3: {
+                    //starts the stopwatch to calculate the time spent to find the shortest path
+                    timerFlow = new Stopwatch();
+
                     StdDraw.clear();
                     new Main().show(randomlyGenMatrix, true);
                     new Main().show(randomlyGenMatrix, true, Ai, Aj, Bi, Bj);
 
                     metricType = "Chebyshev";
-                    //starts the stopwatch to calculate the time spent to find the shortest path
-                    Stopwatch timerFlow2 = new Stopwatch();
+
                     //stores the list of nodes returned by the find path method
                     List<Node> finalPath = new AStar(N, nodes, metricType).findPath(Ai, Aj, Bi, Bj);
 
@@ -397,9 +437,15 @@ public class Main {
                     System.out.println("*                                                *");
                     System.out.println("**************************************************");
 
-                    StdOut.println("\nAlgorithm running time - " + timerFlow2.elapsedTime());
-                    System.out.println("\nTotal cost of the shortest path - " + new Main().calcTotalCost(finalPath));
-                    System.out.println("\nPath followed - " + Arrays.toString(finalPath.toArray()));
+
+                    if(finalPath.size()>0) {
+                        System.out.println("\nA Path exists!  ");
+                        System.out.println("\nTotal cost of the shortest path - " + new Main().calcTotalCost(finalPath));
+                        System.out.println("\nPath followed - " + Arrays.toString(finalPath.toArray()));
+                    }else{
+                        System.out.println("\nSorry! A Path doesn't exist!");
+                    }
+                    StdOut.println("\nAlgorithm running time - " + timerFlow.elapsedTime());
 
 
                     //draws the shortest path on the grid
@@ -454,12 +500,18 @@ public class Main {
 
         double totalCost = 0.0;
 
-        for (Node node : path){
+        /*for (Node node : path){
 
             totalCost = totalCost + node.getG();
-        }
+            System.out.println(totalCost);
+        }*/
+
+        totalCost = path.get(path.size() - 1).getG();
+        String.format( "%.2f", totalCost);
+
         return totalCost;
     }
+
 
 }
 

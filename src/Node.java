@@ -1,4 +1,5 @@
 /**
+ *
  * Student name - Brion Mario Piumal Silva
  * IIT No - 2015283
  * UOW ID - w1608482
@@ -6,6 +7,7 @@
  * @author brionsilva
  * @version 1.0
  * @since 27/03/2017
+ *
  */
 
 public class Node {
@@ -92,24 +94,24 @@ public class Node {
      */
     public void setH(Node destination , String metric)
     {
-        double hValue;
+
 
         switch (metric) {
             case "Manhattan": {
                 h = (Math.abs(getI() - destination.getI()) + Math.abs(getJ() - destination.getJ())) ;
-                //h = Math.round(hValue * 10) / 10.0;
+
                 break;
             }
             case "Euclidean": {
                 double hSqrd = Math.pow((getI() - destination.getI()) , 2) + Math.pow((getJ() - destination.getJ()) , 2);
                 h = Math.sqrt(hSqrd);
-                //h = Math.round(hValue * 10) / 10.0;
+
                 break;
             }
             case "Chebyshev": {
                 h = Math.max ( Math.abs(getI() - destination.getI()) ,
                         Math.abs(getJ() - destination.getJ()));
-                //h = Math.round(hValue * 10) / 10.0;
+
                 break;
             }
         }
@@ -243,10 +245,6 @@ public class Node {
                 "i=" + i +
                 ", j=" + j +
                 ", g=" + g +
-              /*  ", notBlocked=" + notBlocked +
-
-                ", h=" + h +
-                ", parent=" + parent +*/
                 ')';
     }
 
@@ -256,5 +254,15 @@ public class Node {
 
     public void setCOST(double COST) {
         this.COST = COST;
+    }
+
+    private double totCost;
+
+    public double getTotCost() {
+        return totCost;
+    }
+
+    public void setTotCost(double totCost) {
+        this.totCost = totCost;
     }
 }

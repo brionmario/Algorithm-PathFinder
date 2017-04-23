@@ -1,4 +1,7 @@
+import java.text.DecimalFormat;
+
 /**
+ *
  * Student name - Brion Mario Piumal Silva
  * IIT No - 2015283
  * UOW ID - w1608482
@@ -6,6 +9,7 @@
  * @author brionsilva
  * @version 1.0
  * @since 31/03/2017
+ *
  */
 public class Test {
 
@@ -17,7 +21,6 @@ public class Test {
 
     public Test(String metric){
         this.metric = metric;
-
     }
 
     public void printH(Node[][] nodes){
@@ -31,11 +34,11 @@ public class Test {
                     double h = node[i].getH();
 
                     if (h < 10)
-                        System.out.print(" 0" + node[i].getH() + " ");
+                        System.out.print(" 0" + String.format( "%.2f", node[i].getH()) + " ");
                     else
-                        System.out.print(" " + node[i].getH() + " ");
+                        System.out.print(" " + String.format( "%.2f", node[i].getH()) + " ");
                 }else {
-                    System.out.print(" " + "----" + " ");
+                    System.out.print(" " + "-----" + " ");
                 }
             }
             System.out.println("");
@@ -57,11 +60,11 @@ public class Test {
                     double g = node[i].getG();
 
                     if (g < 10)
-                        System.out.print(" 0" + g + " ");
+                        System.out.print(" 0" + String.format( "%.2f", g) + " ");
                     else
-                        System.out.print(" " + g + " ");
+                        System.out.print(" " + String.format( "%.2f", g) + " ");
                 }else {
-                    System.out.print(" " + "----" + " ");
+                    System.out.print(" " + "-----" + " ");
                 }
             }
             System.out.println("");
@@ -83,11 +86,11 @@ public class Test {
                     double f = node[i].getF();
 
                     if (f < 10)
-                        System.out.print(" 0" + f + " ");
+                        System.out.print(" 0" + String.format( "%.2f", f) + " ");
                     else
-                        System.out.print(" " + f + " ");
+                        System.out.print(" " + String.format( "%.2f", f) + " ");
                 }else {
-                    System.out.print(" " + "----" + " ");
+                    System.out.print(" " + "-----" + " ");
                 }
             }
             System.out.println("");
